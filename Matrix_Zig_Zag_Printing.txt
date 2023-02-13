@@ -1,0 +1,49 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Matrix_Path
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int x = 1, y = 0, temp = 0, count = 0, z = 0;
+            Console.WriteLine("Enter the size of the square matrix");
+            int size = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter the elements in the matrix");
+            int[,] mat = new int[size, size];
+            int[] fin = new int[size * size];
+            for (int i = 0; i < size; i++)
+            {
+                for (int j = 0; j < size; j++)
+                    mat[i, j] = Convert.ToInt32(Console.ReadLine());
+            }
+            for (int i = 0; i < 2 * size - 1; ++i)
+            {
+                if (i < size)
+                    z = 0;
+                else
+                    z= i - size + 1;
+                for (int j = z; j <= i - z; ++j)
+                {
+                    if (y < size * size && count % 2 == 0)
+                    {
+                        fin[y] = mat[i - j, j];
+                    }
+                    if (y < size * size && count % 2 != 0)
+                    {
+                        fin[y] = mat[j, i - j];
+                    }
+                    y++;
+                }
+                count++;
+            }
+            for (int i = 0; i < size * size; i++)
+                Console.Write(fin[i] + " ");
+            Console.ReadKey();
+        }
+    }
+}

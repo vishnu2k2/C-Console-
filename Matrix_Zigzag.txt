@@ -1,0 +1,65 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace dummy
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int x = 0, y = 0;
+            Console.WriteLine("Enter the size of the matrix");
+            int size = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter the matrix elements");
+            int[,] arr = new int[size,size];
+            int[,] fin = new int[size,size];
+            for (int i = 0; i < size; i++)
+            {
+                for(int j = 0; j < size; j++)
+                {
+                    arr[i,j] = Convert.ToInt32(Console.ReadLine());
+                }
+            }
+            x = size - 1;  y = size - 1;
+            for(int i = 0; i < size; i++)
+            {
+                for(int j = 0; j < size; j++)
+                {
+                    if ((x >= 0 && y >= 0) || (y > 4 && y >= 0))
+                    {
+                        fin[i, j] = arr[x, y];
+                        if (i % 2 == 0)
+                            y--;
+                        if (i % 2 != 0)
+                        {
+                            y++;
+                        }
+                    }
+                    else
+                        break;
+                    if (y == -1)
+                    {
+                        y = 0;
+                    }
+                    if (y == size)
+                    {
+                        y = size - 1;
+                    }
+                }
+                x--;
+            }
+            for(int i = -0; i < size; i++)
+            {
+                for(int j = 0; j < size; j++)
+                {
+                    Console.Write(fin[i, j] + " ");
+                }
+                Console.WriteLine();
+            }
+            Console.ReadKey();
+        }
+    }
+}

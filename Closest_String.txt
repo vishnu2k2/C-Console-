@@ -1,0 +1,52 @@
+//Task-9
+
+//Find the minimum distance between the given two words
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Reverse_Words
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int s = -1, e = -1, f = 999, count = 0;
+            Console.WriteLine("Enter the number of words to be inserted");
+            int num = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter the words");
+            string[] name = new string[num];
+            for(int i = 0; i < num; i++)
+            {
+                string val = Console.ReadLine();
+                name[i] = val;
+            }
+            Console.WriteLine("Enter the starting word");
+            string start = Console.ReadLine();
+            Console.WriteLine("Enter the ending word");
+            string end = Console.ReadLine();
+            for(int i = 0; i < num; i++)
+            {
+                if (name[i] == start)
+                {
+                    s = i;
+                }
+                if (name[i] == end)
+                {
+                    e = i;
+                }
+                if (s != -1 && e != -1)
+                {
+                    f = Math.Min(f,Math.Abs(s - e));
+                }
+            }
+            Console.WriteLine(f);
+            Console.ReadKey();
+        }
+    }
+}
+
+

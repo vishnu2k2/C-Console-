@@ -1,0 +1,134 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Matrix_Rotation
+{
+    class Program
+    {
+        public static int[,] clockRotate(int[,] arr,int r,int c,int d)
+        {
+            int[,] fin = new int[r,c];
+            int x = 0, y = 0;
+            if (d > 0)
+            {
+                for (int i = r - 1; i >= 0; i--, x++) 
+                {
+                    y = 0;
+                    for (int j = 0; j < c; j++, y++)
+                    {
+                        fin[y, x] = arr[i, j];
+                    }
+                }
+                for (int i = 0; i < r; i++)
+                {
+                    for (int j = 0; j < c; j++)
+                    {
+                        arr[i, j] = fin[i, j];
+                    }
+                }
+            }
+            if (d < 0)
+            {
+                for (int i = r - 1; i >= 0; i--, x++) 
+                {
+                    y = 0;
+                    for (int j = 0; j < c; j++, y++)
+                    {
+                        fin[x, y] = arr[j, i];
+                    }
+                }
+                for (int i = 0; i < r; i++)
+                {
+                    for (int j = 0; j < c; j++)
+                    {
+                        arr[i, j] = fin[i, j];
+                    }
+                }
+            }
+            Console.WriteLine();
+            return arr;
+    }
+        public static void findrow(int[,] arr, int r)
+        {
+            int[] min = new int[r * 2];
+            int mi = 0, ma=0;
+            for (int i = 0; i < r; i++)
+            {
+                for (int j = 0; j < r; j++)
+                {
+                    min[i] += arr[i, j];
+                }
+            }
+            mi = min[0];
+            ma = min[0];
+            for(int i = 0; i < r; i++)
+            {
+                if (mi > min[i])
+                    mi = min[i];
+                if (ma < min[i])
+                    ma = min[i];
+            }
+            Console.WriteLine("The row min is:" + mi + " " + "The row max is:" + ma);
+        }
+        public static void findcol(int[,] arr, int r)
+        {
+            int[] min = new int[r * 2];
+            int mi = 0, ma = 0;
+            for (int i = 0; i < r; i++)
+            {
+                for (int j = 0; j < r; j++)
+                {
+                    min[i] += arr[j, i];
+                }
+            }
+            mi = min[0];
+            ma = min[0];
+            for (int i = 0; i < r; i++)
+            {
+                if (mi > min[i])
+                    mi = min[i];
+                if (ma < min[i])
+                    ma = min[i];
+            }
+            Console.WriteLine("The col min is:" + mi + " " + "The col max is:" + ma);
+        }
+
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Enter the row and column size");
+            int row = Convert.ToInt32(Console.ReadLine());
+            int col = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter the matrix elements");
+            int[,] arr = new int[row, col];
+            for (int i = 0; i < row; i++)
+            {
+                for(int j = 0; j < col; j++)
+                {
+                    int n = Convert.ToInt32(Console.ReadLine());
+                    arr[i, j] = n;
+                }
+            }
+            Console.WriteLine("Enter the degree to rotate");
+            int deg= Convert.ToInt32(Console.ReadLine());
+            int d = deg / 90;
+            int r = Math.Abs(d);
+            for (int i = 0; i < r; i++) 
+               arr = clockRotate(arr,row,col,d);
+            
+            for(int i = 0; i < row; i++)
+            {
+                for(int j = 0; j < col; j++)
+                {
+                    Console.Write(arr[i, j]+" ");
+                }
+                Console.WriteLine();
+            }
+            findrow(arr, row);
+            findcol(arr, col);
+            Console.ReadKey();
+        }
+    }
+}

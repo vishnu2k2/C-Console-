@@ -1,0 +1,34 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Jim_and_the_Skyscrapers
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int count = 0, height = 0;
+            Console.WriteLine("Enter the number of skycrapers");
+            int num = Convert.ToInt32(Console.ReadLine());
+            int[] arr = new int[num];
+            for (int i = 0; i < num; i++)
+                arr[i] = Convert.ToInt32(Console.ReadLine());
+            height = arr[0];
+            for(int i = 0; i < num - 1; i++)
+            {
+                for(int j = i + 1; j < num; j++)
+                {
+                    if (height < arr[j])
+                        break;
+                    if (arr[i] == arr[j])
+                        count = count + 2;
+                }
+            }
+            Console.WriteLine(count);
+            Console.ReadKey();
+        }
+    }
+}

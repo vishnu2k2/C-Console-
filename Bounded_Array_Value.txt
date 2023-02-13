@@ -1,0 +1,150 @@
+//Task-2
+
+//Bounded Array With Value
+
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Bounded_Array
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int count = 0, as2 = 1, as1 = 1, temp = 0, temp1 = 0, i = 0, flag = 0;
+            int[] a = new int[100];
+            int[] b = new int[100];
+            int[] c = new int[100];
+            int[] d = new int[100];
+            int[] v = new int[100];
+            int[] s = new int[100];
+            while (true)
+            {
+                Console.WriteLine("\n");
+                Console.WriteLine("--------------------------Bounded Array------------------------");
+                Console.WriteLine("\n");
+                Console.WriteLine("Enter the lower bound and upper bound");
+                int low = Convert.ToInt32(Console.ReadLine());
+                int upp = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("\n");
+                Console.WriteLine("Enter the value");
+                int val = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("\n");
+                if (count == 0)
+                {
+                    c[temp] = low;
+                    d[temp] = upp;
+                    v[temp] = val;
+                    temp++;
+                    count++;
+                }
+                else
+                {
+                    for (i = 0; i < temp; i++)
+                    {
+                        if ((low <= a[i] && low >= b[i]) && upp <= b[i])
+                        {
+                            low = a[i];
+                            val += s[i];
+                            a[i] = -999;
+                        }
+                        else if ((low <= a[i] && upp <= b[i]) && upp >= a[i])
+                        {
+                            upp = b[i];
+                            val += s[i];
+                            b[i] = -999;
+                        }
+                        else if ((low <= a[i] && low <= b[i]) && (upp <= a[i] && upp >= b[i]))
+                        {
+                            low = a[i];
+                            upp = b[i];
+                            val += s[i];
+                            a[i] = -999;
+                            b[i] = -999;
+                        }
+                        else if ((low >= a[i] && low <= b[i]) && upp >= b[i])
+                        {
+                            low = a[i];
+                            a[i] = -999;
+                            val += s[i];
+                        }
+                        else if ((low >= a[i] && low <= b[i]) && upp <= b[i])
+                        {
+                            low = a[i];
+                            upp = b[i];
+                            val += s[i];
+                            a[i] = -999;
+                            b[i] = -999;
+                        }
+                        else if (low <= a[i] && upp >= b[i])
+                        {
+                            val += s[i];
+                            a[i] = -999;
+                            b[i] = -999;
+                            continue;
+                        }
+                        else
+                        {
+                            flag = 1;
+                        }
+
+                    }
+                    if (flag == 0)
+                    {
+                        c[temp] = low;
+                        d[temp] = upp;
+                        v[temp] = val;
+                        temp++;
+                    }
+                    else
+                    {
+                        for (i = 0; i < temp; i++)
+                        {
+                            if (a[i] != -999 && b[i] != -999)
+                            {
+                                c[i] = a[i];
+                                d[i] = b[i];
+                                v[i] = s[i];
+                            }
+                        }
+                        c[temp] = low;
+                        d[temp] = upp;
+                        v[temp] = val;
+                        temp++;
+                    }
+                }
+                for (i = 0; i < temp; i++)
+                {
+                    if ((c[i] != -999 && d[i] != -999) && v[i] != -999)
+                    {
+                        Console.WriteLine(c[i] + "-" + d[i]+" "+v[i]);
+                        Console.WriteLine("\n");
+                    }
+                }
+                for (i = 0; i < temp; i++)
+                {
+                    a[i] = c[i];
+                    b[i] = d[i];
+                    s[i] = v[i];
+                }
+                for (i = 0; i < temp; i++)
+                {
+                    c[i] = -999;
+                    d[i] = -999;
+                    v[i] = -999;
+                }
+                Console.WriteLine("Press z to continue");
+                int option = Convert.ToChar(Console.ReadLine());
+                Console.WriteLine("\n");
+                if (option != 'z')
+                {
+                    break;
+                }
+            }
+        }
+    }
+}

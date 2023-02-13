@@ -1,0 +1,93 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Substring_Concatenation
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int wlen = 0, olen = 0, size = 0, count = 0, dummy = 0, l = 0, d = 0, x = 0, y = 3, z = 0, f = 0;
+            string str = "", rstr="";
+            Console.WriteLine("Enter the String");
+            String s = Console.ReadLine();
+            Console.WriteLine("Enter the number of words");
+            int num = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter the words");
+            string[] word = new string[num];
+            string[] dum = new string[num];
+            int[] arr = new int[num];
+            int[] len = new int[num];
+            for (int i = 0; i < num; i++)
+                word[i] = Console.ReadLine();
+            wlen = word[0].Length;
+            olen = num * wlen;
+            dummy = wlen;
+            int val = num - 1;
+            for (int i = 0; i < olen; i++)
+            {
+                size = 0;
+                count = 0;
+                while (true)
+                {
+                    z = 0;
+                    for( int j = 0; j < num; j++)
+                    {
+                        f = 0;
+                        if (x < s.Length)
+                            rstr = s.Substring(x, y);
+                        if (rstr.CompareTo(word[j]) == 0)
+                        {
+                            l = l + dummy;
+                            x = x + dummy;
+                            f++;
+                            arr[j] = f;
+                        }
+                        if (rstr.CompareTo(word[j]) != 0)
+                        {
+                            z++;
+                        }
+                    }
+                    if (z == num)
+                    {
+                        z = 0;
+                        x = x + dummy;
+                        f = 0;
+                        size = 0;
+                    }
+                    for (int k = 0; k < num; k++)
+                    {
+                        size++;
+                    }
+                    for (int k = 0; k < num; k++)
+                    {
+                        if (arr[k] == 0)
+                            size = 0;
+                    }
+                    if (size == num)
+                         break;
+                }
+                len[d++] = x;
+                x = x - wlen * val;
+                for(int k = 0; k < num; k++)
+                {
+                    arr[k] = 0;
+                    if (len[k] != 0)
+                        count++;
+                }
+                if (count == num)
+                    break;
+            }
+            for (int i = 0; i < num; i++)
+            {
+                Console.Write((len[i]-olen) + " ");
+            }
+            Console.ReadKey();
+        }
+    }
+}
+
+Question : https://leetcode.com/problems/substring-with-concatenation-of-all-words/ 

@@ -1,0 +1,199 @@
+//Task-11
+
+//Adjacent Matrix
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Adjacent_Matrix
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int count = 1, temp = 0, temp1 = 0, x = 0, y = 0, det = 0, b = 0, a = 0, fin = 0, c = 0;
+            Console.WriteLine("Enter the number of rows and columns");
+            int num = Convert.ToInt32(Console.ReadLine());
+            int[,] adj = new int[num, num];
+            int[,] dum = new int[num-1, num-1];
+            int[,] tre = new int[num-1, num-1];
+            int[] arr = new int[num*num];
+            int[,] two = new int[num, num];
+            Console.WriteLine("Enter the elements in the matrix");
+            for (int i = 0; i < num; i++)
+            {
+                for (int j = 0; j < num; j++)
+                {
+                    int n = Convert.ToInt32(Console.ReadLine());
+                    adj[i, j] = n;
+                }
+            }
+            if (num == 1)
+            {
+                Console.WriteLine("The Adjacent Matrix is:");
+                Console.WriteLine("[" + adj[0, 0] + "]");
+            }
+            if (num == 2)
+            {
+                for (int i = 0, j = 1; j < 2; j++)
+                {
+                    temp = adj[i, i];
+                    adj[i, i] = adj[j, j];
+                    adj[j, j] = temp;
+                }
+                adj[0, 1] = -adj[0, 1];
+                adj[1, 0] = -adj[1, 0];
+                Console.Write("\n");
+                Console.WriteLine("The Adjacent Matrix is:");
+                for (int i = 0; i < num; i++)
+                {
+                    for (int j = 0; j < num; j++)
+                    {
+                        Console.Write(adj[i, j] + " ");
+                    }
+                    Console.WriteLine();
+                }
+            }
+            if (num == 3)
+            {
+                while (true)
+                {
+                    a = 0;
+                    b = 0;
+                    for (int i = 0, j = 0; i < num; i++)
+                    {
+                        if (i == x)
+                        {
+                            continue;
+                        }
+                        for (int k = 0, l = 0; k < num; k++)
+                        {
+                            if (k == y)
+                            {
+                                continue;
+                            }
+                            dum[j, l] = adj[i, k];                     //Splitting to 2x2 matrix
+                            l++;
+                        }
+                        j++;
+                    }
+                    temp = dum[a++, b++] * dum[a, b];
+                    temp1 = dum[--a, b] * dum[++a, --b];               //Calculating the co-factor
+                    if (count % 2 == 0)                                //Assigning symbol
+                    {
+                        arr[fin] = -(temp - temp1);
+                    }
+                    else
+                    {
+                        arr[fin] = (temp - temp1);
+                    }
+                    y++;
+                    if (y == 3)
+                    {
+                        y = 0;
+                        x++;
+                    }
+                    count++;
+                    fin++;
+                    if (count == 10)
+                    {
+                        break;
+                    }
+                }
+                fin = 0;
+                for (int i = 0; i < num; i++)           //Storing it to a 3x3 matrix
+                {
+                    for (int j = 0; j < num; j++)
+                    {
+                        two[i, j] = arr[fin];
+                        fin++;
+                    }
+                }
+                Console.WriteLine("The Adjacent Matrix is");
+                for (int i = 0; i < num; i++)           //Transposing the matrix
+                {
+                    for (int j = 0; j < num; j++)
+                    {
+                        Console.Write(two[j, i] + " ");
+                    }
+                    Console.WriteLine();
+                }
+            }
+            if (num == 4)
+            {
+                while (true)
+                {
+                    a = 0;
+                    b = 0;
+                    det = 0;
+                    for (int i = 0, j = 0; i < num; i++)
+                    {
+                        if (i == x)
+                        {
+                            continue;
+                        }
+                        for (int k = 0, l = 0; k < num; k++)
+                        {
+                            if (k == y)
+                            {
+                                continue;
+                            }
+                            dum[j, l] = adj[i, k];                     //Splitting to 3x3 matrix
+                            l++;
+                        }
+                        j++;
+                    }
+                    for (int i = 0; i < 3; i++)
+                            det = det + (dum[0, i] * (dum[1, (i + 1) % 3] * dum[2, (i + 2) % 3] - dum[1, (i + 2) % 3] * dum[2, (i + 1) % 3]));     //taking determinant
+                    if ((c % 2 != 0 && c <= 3) || (c % 2 != 0 && c >= 8 && c <= 11))   //Applying symbol
+                    {
+                        arr[c] = -det;
+                    }
+                    else if ((c % 2 == 0 && c >= 4 && c <= 7) || (c % 2 == 0 && c >= 12)) 
+                    {
+                        arr[c] = -det;
+                    }
+                    else
+                    {
+                        arr[c] = det;
+                    }
+                    c++;
+                    y++;
+                    count++;
+                    if (y == 4)
+                    {
+                        y = 0;
+                        x++;
+                    }
+                    if (count == 17)
+                    {
+                        break;
+                    }
+                }
+                fin = 0;
+                for (int i = 0; i < num; i++)           //Storing it to a 3x3 matrix
+                {
+                    for (int j = 0; j < num; j++)
+                    {
+                        two[i, j] = arr[fin];
+                        fin++;
+                    }
+                }
+                Console.WriteLine("The Adjacent Matrix is");
+                for (int i = 0; i < num; i++)           //Transposing the matrix
+                {
+                    for (int j = 0; j < num; j++)
+                    {
+                        Console.Write(two[j, i] + " ");
+                    }
+                    Console.WriteLine();
+                }
+                Console.WriteLine(count);
+            }
+            Console.ReadKey();
+        }
+    }
+}

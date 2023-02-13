@@ -1,0 +1,77 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace dummy
+{
+    class Program
+    {
+        public static void Main(string[] args)
+        {
+            int x = 0, y = 0, z = 0, count = 0, j = 0, temp = 0;
+            Console.WriteLine("Enter the number of rows for matrix1");
+            int row = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter the number of columns for matrix1");
+            int col = Convert.ToInt32(Console.ReadLine());
+            int[,] mat = new int[row, col];
+            Console.WriteLine("Enter the matrix elements");
+            for (int i = 0; i < row; i++)
+            {
+                for(j = 0; j < col; j++)
+                {
+                    mat[i, j] = Convert.ToInt32(Console.ReadLine());
+                }
+            }
+            Console.WriteLine("Enter the number of rows for matrix2");
+            int row1 = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter the number of columns for matrix2");
+            int col1 = Convert.ToInt32(Console.ReadLine());
+            int[,] fin = new int[row1, col1];
+            Console.WriteLine("Enter the matrix elements");
+            for (int i = 0; i < row1; i++)
+            {
+                for (j = 0; j < col1; j++)
+                {
+                    fin[i, j] = Convert.ToInt32(Console.ReadLine());
+                }
+            }
+            int[,] val = new int[row, col1];
+            List<int> arr = new List<int>();
+            for (int i = 0; i < row; i++)
+            {
+                count = 0;
+                y = 0;
+                while (true)
+                {
+                    j = 0; x = 0; temp = 0;
+                    if (col1 - 1 != y && count != 0) 
+                        y++;
+                    for (j = 0; j < col; j++)
+                    {
+                        temp += (mat[i, j] * fin[x, y]);
+                        x++;
+                    }
+                    arr.Add(temp);
+                    z++;
+                    count++;
+                    if (count == col1)
+                        break;
+                }
+            }
+            count = 0;
+            for(int i = 0; i < arr.Count; i++)
+            {
+                if (arr[i] != 0)
+                {
+                    if (count % col1 == 0)
+                        Console.WriteLine();
+                    Console.Write(arr[i] + " ");
+                    count++;
+                }
+            }
+            Console.ReadKey();
+        } 
+    }
+}

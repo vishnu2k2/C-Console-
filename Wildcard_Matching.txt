@@ -1,0 +1,52 @@
+//Task-17
+
+//Wildcard Matching
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Wildcard_Matching
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            bool ans = false;
+            Console.WriteLine("Enter the first string");
+            string first = Console.ReadLine();
+            Console.WriteLine("Enter the second string");
+            string second = Console.ReadLine();
+            char[] one = first.ToCharArray();
+            char[] two = second.ToCharArray();
+            for(int i = 0; i < two.Length; i++)
+            {
+                if (two[i] == '*')
+                {
+                    ans = true;
+                    break;
+                }
+                else if (one.Length == 1 && two[i] == '?')
+                {
+                    ans = true;
+                    break;
+                }
+                else
+                {
+                    ans = false;
+                }
+            }
+            if (String.Compare(first, second) == 0)
+            {
+                ans = false;
+            }
+            Console.WriteLine(ans);
+            Console.ReadKey();
+        }
+    }
+}
+
+
+question:  https://leetcode.com/problems/wildcard-matching/

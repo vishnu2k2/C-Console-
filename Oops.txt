@@ -1,0 +1,57 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace oops
+{
+    struct employee                 //structure
+    {
+        public string name;
+        public int age;
+        public string city;
+        public float salary;
+    };
+    public enum days                //enum
+    {
+        Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday
+    }
+    public interface Istore         //interface
+    {
+        void stores();
+        int stores(int age);            //polymorphism
+    }
+    public abstract class storing : Istore    //abstract class
+    {
+        public void stores()
+        {
+            Console.WriteLine("Here the store!");
+        }
+        public int stores(int age)
+        {
+            return age * 1000;
+        }
+    }
+    public static class visual         //static class
+    {
+        public static string work = "twenty two";
+    }
+    class Program : storing                 //inheritance
+    {
+        static void Main(string[] args)
+        {
+            employee emp;
+            emp.name = "Vishnu";
+            emp.age = 20;
+            emp.city = "Madurai";
+            emp.salary = 50000;
+            int day = (int)days.Thursday;
+            Program p = new Program();
+            p.stores();
+            int res = p.stores(emp.age);
+            Console.WriteLine("The details of an employee is" + "\n" + emp.name + "\n" + emp.age + "\n" + emp.city + "\n" + emp.salary + "\n" + day + "\n" + visual.work + "\n" + res);
+            Console.ReadKey();
+        }
+    }
+}

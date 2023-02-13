@@ -1,0 +1,62 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Lc_Phone_Number
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Dictionary<int, string> phone = new Dictionary<int, string>();
+            phone.Add(2, "abc");
+            phone.Add(3, "def");
+            phone.Add(4, "ghi");
+            phone.Add(5, "jkl");
+            phone.Add(6, "mno");
+            phone.Add(7, "pqrs");
+            phone.Add(8, "tuv");
+            phone.Add(9, "wxyz");
+            string[] arr = new string[20];
+            int[] ele = new int[4];
+            int rem = 0, cpy = 0, len = 0, str = 0; string name = "";
+            Console.WriteLine("Enter the digit");
+            int num = Convert.ToInt32(Console.ReadLine());
+            while (num != 0)
+            {
+                ele[rem] = num % 10;
+                num = num / 10;
+                rem++;
+            }
+            cpy = rem;
+            rem = 0;
+            for (int i = 0; i < phone.Count; i++) 
+            {
+                    if (phone.ContainsKey(ele[rem]))
+                {
+                    name += phone[ele[rem]];
+                    if (ele[rem] == 7 || ele[rem] == 9)
+                            len = name.Length + 1;
+                    len = name.Length;
+                        rem++;
+                }
+            }
+            rem = 0;
+            for(int i = 0; i < len / cpy; i++)
+            {
+                for (int j = name.Length / cpy; j < name.Length; j++){
+                    if (rem < 20)
+                    {
+                        arr[rem] = name[i].ToString() + name[j].ToString();
+                        rem++;
+                    }
+            }
+            }
+            for (int i = 0; i < 20; i++)
+                Console.WriteLine(arr[i]);
+            Console.ReadKey();
+        }
+    }
+}

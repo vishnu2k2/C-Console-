@@ -1,0 +1,57 @@
+//Task-10
+
+//Check if two given Strings are Isomorphic to each other
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Reverse_Words
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int count = 0, count1 = 0;
+            Console.WriteLine("Enter the first string");
+            string str = Console.ReadLine();
+            Console.WriteLine("Enter the second string");
+            string str1 = Console.ReadLine();
+            char[] val1 = str.ToCharArray();
+            char[] val2 = str1.ToCharArray();
+            for(int i = 0; i < val1.Length-1; i++)
+            {
+                if (val1[i] == ' ' || val2[i] == ' ')
+                {
+                    continue;
+                }
+                for(int j = i+1; j < val1.Length; j++)
+                {
+                    if (val1[i] == val1[j])
+                    {
+                        val1[j] = ' ';
+                        count++;
+                    }
+                    if (val2[i] == val2[j])
+                    {
+                        val2[j] = ' ';
+                        count1++;
+                    }
+                }
+            }
+            if (count == count1)
+            {
+                Console.WriteLine("True");
+            }
+            else
+            {
+                Console.WriteLine("False");
+            }
+            Console.ReadKey();
+        }
+    }
+}
+
+

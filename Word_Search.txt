@@ -1,0 +1,133 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Word_Search
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int randomChar = 0, row = 0, col = 0, a = 0, b = 0, c = 0, d = 0, x = 0;
+            Console.WriteLine("Enter the size of the matrix");
+            int num = Convert.ToInt32(Console.ReadLine());
+            char[,] mat = new char[num, num];
+            Console.WriteLine("Enter the word to be search");
+            string word = Console.ReadLine().ToUpper();
+            string dum ="";
+            char[] arr = word.ToCharArray();
+            Random random = new Random();
+            for (int i = 0; i < num; i++)
+            {
+                for(int j = 0; j < num; j++)
+                {
+                    randomChar = random.Next(0, 26);
+                    mat[i, j] = (char)('A' + randomChar);
+                    //mat[i, j] = Convert.ToChar(Console.ReadLine());
+                }
+            }
+            for(int i = 0; i < num; i++)
+            {
+                for(int j = 0; j < num; j++)
+                {
+                    if (arr.Length > num)
+                        break;
+                    if (arr[x] == mat[i, j])
+                    {
+                        dum += arr[x];
+                        row = i; a = i;
+                        col = j; b = j;
+                        for(int k = dum.Length; k < num; k++)      //Checking right side
+                        {
+                            col = col + 1;
+                            if (col >= num - 1)
+                                break;
+                            if (mat[row,col] == arr[k])
+                            {
+                                c = row;
+                                d = col;
+                                dum += arr[k];
+                            }
+                        }
+                        if (dum.CompareTo(word) == 0)
+                        {
+                            break;
+                        }
+                        for (int k = dum.Length; k < num; k++)  //Checking left side
+                        {
+                            col = col - 1;
+                            if (col <= 0)
+                                break;
+                            if (mat[row,col] == arr[k])
+                            {
+                                c = row;
+                                d = col;
+                                dum += arr[k];
+                            }
+                        }
+                        if (dum.CompareTo(word) == 0)
+                        {
+                            break;
+                        }
+                        for (int k = dum.Length; k < num; k++)  //Checking down-right diagonal
+                        {
+                            if (row >= num - 1 || col >= num - 1)
+                                break;
+                            if (mat[++row, ++col] == arr[k])
+                            {
+                                c = row;
+                                d = col;
+                                dum += arr[k];
+                            }
+                        }
+                        if (dum.CompareTo(word) == 0)
+                        {
+                            break;
+                        }
+                        for (int k = dum.Length; k < num; k++)  //Checking up-left diagonal
+                        {
+                            if (row <= 0 || col <= 0)
+                                break;
+                            if (mat[--row, --col] == arr[k])
+                            {
+                                c = row;
+                                d = col;
+                                dum += arr[k];
+                            }
+                        }
+                        if (dum.CompareTo(word) == 0)
+                        {
+                            break;
+                        }
+                        if (x < num) 
+                            x++;
+                    }
+                }
+                if (dum.CompareTo(word) == 0)
+                {
+                    break;
+                }
+            }
+            for (int i = 0; i < num; i++)
+            {
+                for (int j = 0; j < num; j++)
+                {
+                    Console.Write(mat[i, j] + " ");
+                }
+                Console.WriteLine();
+            }
+            for(int i = 0; i < arr.Length; i++)
+            {
+                Console.Write(arr[i] + " ");
+            }
+            if (word.CompareTo(dum) == 0)
+            {
+                Console.Write("The starting point" + a + " " + b);
+                Console.Write("The ending point" + c + " " + d);
+            }
+            Console.ReadKey();
+        }
+    }
+}

@@ -1,0 +1,28 @@
+//Task-6
+
+//Reverse words in a string
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Reverse_Words
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Enter the Sentence");
+            string name = Console.ReadLine();
+            string[] rev = name.Split(' ');
+            Console.Write("\n");
+            for(int i = rev.Length-1; i >= 0; i--)
+            {
+                Console.Write(rev[i]+" ");
+            }
+            Console.ReadKey();
+        }
+    }
+}

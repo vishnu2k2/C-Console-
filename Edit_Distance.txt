@@ -1,0 +1,106 @@
+//Task-17
+
+//Edit Distance
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+namespace Edit_Distance
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int count = 0;
+            string name = "";
+            Console.WriteLine("Enter the original string");
+            string original = Console.ReadLine();
+            Console.WriteLine("Enter the string to be modified");
+            string modify = Console.ReadLine();
+            char[] arr = original.ToCharArray();
+            char[] are = modify.ToCharArray();
+            char[] dum = new char[100];
+            char[] dummy = new char[100];
+            int len = arr.Length;
+            int len1 = are.Length;
+            if (arr[0] != are[0])
+            {
+                arr[0] = are[0];
+                count++;
+            }
+            if (len > len1)
+            {
+                for (int i = 0; i < len1; i++)
+                {
+                    dummy[i] = are[i];
+                }
+                for (int i = 0; i < len; i++)
+                {
+                    if (arr[i] == dummy[i])
+                    {
+                        dum[i] = arr[i];
+                    }
+                    if (arr[i] != dummy[i])
+                    {
+                        arr[i] = dummy[i];
+                        dum[i] = arr[i];
+                        count++;
+                    }
+                    name += dum[i];
+                    if (name == modify)
+                    {
+                        int str = len - i-1;
+                        count += str;
+                        break;
+                    }
+                }
+            }
+            if(len < len1)
+            {
+                for (int i = 0; i < len; i++)
+                {
+                    dummy[i] = arr[i];
+                }
+                for (int i = 0; i < len1; i++)
+                {
+                    if (dummy[i] == are[i])
+                    {
+                        dum[i] = dummy[i];
+                    }
+                    if (dummy[i] != are[i])
+                    {
+                        dummy[i] = are[i];
+                        dum[i] = dummy[i];
+                        count++;
+                    }
+                }
+            }
+            if (len == len1)
+            {
+                for (int i = 0; i < len; i++)
+                {
+                    if (arr[i] == are[i])
+                    {
+                        dum[i] = arr[i];
+                    }
+                    if (arr[i] != are[i])
+                    {
+                        arr[i] = are[i];
+                        dum[i] = arr[i];
+                        count++;
+                    }
+                }
+            }
+
+            Console.Write(count);
+            Console.ReadKey();
+        }
+    }
+}
+
+
+question: https://leetcode.com/problems/edit-distance/

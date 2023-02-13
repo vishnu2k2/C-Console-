@@ -1,0 +1,51 @@
+//Task-13
+
+//New Driving License
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace New_Driving_License
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int time = 20;
+            Console.WriteLine("Enter your name");
+            string myName = Console.ReadLine();
+            Console.WriteLine("Enter the number of available agents");
+            int agents = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Add already available members");
+            List<string> members = new List<string>();
+            for(int i = 0; i < 4; i++)
+            {
+                string name = Console.ReadLine();
+                members.Add(name);
+            }
+            for(int i = 0; i < 4; i++)
+            {
+                if (string.Compare(members[i], myName) < 0)
+                {
+                    if (agents != 1)
+                    {
+                        agents--;
+                        continue;
+                    }
+                    if (agents == 1)
+                    {
+                        time += 20;
+                    }
+                }
+            }
+            Console.WriteLine(time);
+            Console.ReadKey();
+        }
+    }
+}
+
+
+question: https://edabit.com/challenge/HfpK34Ty4SZhN2d9e

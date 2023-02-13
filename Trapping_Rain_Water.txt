@@ -1,0 +1,62 @@
+//Task-4
+
+//Trapping Rain Water
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Trapping_
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int str = 0, left = 0, right = 0, min = 0;
+            Console.WriteLine("-------------------Trapping Rain Water----------------------");
+            Console.Write("\n");
+            Console.WriteLine("Enter the number of traps");
+            int num = Convert.ToInt32(Console.ReadLine());
+            int[] trap = new int[num];
+            Console.WriteLine("Enter the trap");
+            for (int i = 0; i < num; i++)
+            {
+                int t = Convert.ToInt32(Console.ReadLine());
+                trap[i] = t;
+            }
+            for(int i = 0; i < num - 1; i++)
+            {
+                left = trap[i];
+                for(int j = 0; j < i; j++)                  //taking maximum element in the left hand side
+                {
+                    if (left < trap[j])
+                    {
+                        left = trap[j];
+                    }
+                }
+                right = trap[i];
+                for(int j = i + 1; j < num; j++)            //taking maximum element in the right hand side
+                {
+                    if (right < trap[j])
+                    {
+                        right = trap[j];
+                    }
+                }
+                if (left < right)                           //taking minimum element from the maximum left hand and right hand side
+                {
+                    min = left;
+                }
+                else
+                {
+                    min = right;
+                }
+                str += min - trap[i];                      //take difference from minimum value and array                   
+            }
+            Console.WriteLine("The Watr filled in:"+" "+str+" "+"indices");
+            Console.ReadKey();
+        }
+    }
+}

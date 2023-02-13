@@ -1,0 +1,66 @@
+//Task-16
+
+//Longest Valid Paranthesis
+
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Longest_Valid_Paranthesis
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int count = 0, count1 = 0, count2 = 0;
+            Console.WriteLine("Enter the paranthesis");
+            string para = Console.ReadLine();
+            char[] arr = para.ToCharArray();
+            for (int i = 0; i < arr.Length - 1; i++) 
+            {
+                if(arr[i]==' ')
+                {
+                    continue;
+                }
+                for(int j = i + 1; j < arr.Length; j++)
+                {
+                    if(arr[j]==' ')
+                    {
+                        continue;
+                    }
+                    if (arr[i] == '(' && arr[j] == ')')
+                    {
+                        count += 2;
+                        arr[i] = ' ';
+                        arr[j] = ' ';
+                        break;
+                    }
+                    if (arr[i] == '[' && arr[j] == ']')
+                    {
+                        count1 += 2;
+                        arr[i] = ' ';
+                        arr[j] = ' ';
+                        break;
+                    }
+                    if (arr[i] == '{' && arr[j] == '}')
+                    {
+                        count2 += 2;
+                        arr[i] = ' ';
+                        arr[j] = ' ';
+                        break;
+                    }
+                }
+            }
+        Console.WriteLine("The Longest valid paranthesis () is:"+count);
+        Console.WriteLine("The Longest valid paranthesis [] is:" + count1);
+        Console.WriteLine("The Longest valid paranthesis {} is:" + count2);
+            Console.ReadKey();
+        }
+    }
+}
+
+
+question: https://leetcode.com/problems/longest-valid-parentheses/

@@ -1,0 +1,48 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace dummy
+{
+    class EventProgram
+    {
+        public static void Swap(ref int a, ref int b)
+        {
+            int temp = a;
+            a = b;
+            b = temp;
+        }
+        public static void permutation(int[] arr,int m,int n)
+        {
+            if (m == n - 1)
+            {
+                for (int i = 0; i < n; i++)
+                {
+                    Console.Write(arr[i]+" ");
+                }
+                Console.WriteLine();
+            }
+            else
+            {
+                for(int i = m; i < n; i++)
+                {
+                    Swap(ref arr[m], ref arr[i]);
+                    permutation(arr, m + 1, n);
+                    Swap(ref arr[m], ref arr[i]);
+                }
+            }
+        }
+        static void Main(string[] args) {
+            Console.WriteLine("Enter the size of the array");
+            int num = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter the elements in the array");
+            int[] arr = new int[num];
+            for (int i = 0; i < num; i++)
+                arr[i] = Convert.ToInt32(Console.ReadLine());
+            permutation(arr, 0, num);
+            Console.ReadKey();
+        }
+   }
+}

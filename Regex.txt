@@ -1,0 +1,39 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+
+namespace Regular_expression
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string pattern = @"\b[m]\w+";                                 //Checking whether first letter is m
+            Regex rg = new Regex(pattern,RegexOptions.IgnoreCase);
+            string name = "makesh,Vishnu";
+            string email = "support@javatpoint.com";
+            string str1 = "Welcome To to JavaTPoint. Here we can learn C# easily easily way";
+            MatchCollection matchedAuthors = rg.Matches(name);                                  
+            MatchCollection collection = Regex.Matches(str1, @"\b(\w+?)\s\1\b", RegexOptions.IgnoreCase);   //Checking for duplicate elements
+            var result = Regex.IsMatch(email, @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");     //checking email matches     
+            var result1 = Regex.Replace(email, "[^a-zA-Z0-9_]+"," ");       //Replacing the unwanted one
+            Console.WriteLine("Isvalid: {0}", result);
+            Console.WriteLine("{0}", result1);
+            for (int count = 0; count < matchedAuthors.Count; count++)
+            {
+                Console.WriteLine(matchedAuthors[count].Value);
+            }
+            foreach (Match m in collection)
+
+            {
+
+                Console.WriteLine("{0} (duplicates '{1}') at position {2}", m.Value, m.Groups[1].Value, m.Index);
+
+            }
+            Console.ReadKey();
+        }
+    }
+}

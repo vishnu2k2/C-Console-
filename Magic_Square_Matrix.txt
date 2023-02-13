@@ -1,0 +1,81 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Magic_Square
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int x = 1, y = 0, z = 0, count = 0, a = 1;
+            Console.WriteLine("Enter the rows and columns in the matrix");
+            int row = Convert.ToInt32(Console.ReadLine());
+            int col = Convert.ToInt32(Console.ReadLine());
+            int[,] mat = new int[row, col];
+            int[,] mag = new int[row, col];
+            int[] val = new int[row * col];
+            Console.WriteLine("Enter the elements in the matrix");
+            for (int i = 0; i < row; i++)
+            {
+                for(int j = 0; j < col; j++)
+                {
+                    int n = Convert.ToInt32(Console.ReadLine());
+                    mat[i, j] = n;
+                }
+            }
+            for(int i = 0; i < row; i++)
+            {
+                for(int j = 0; j < col; j++)
+                {
+                    count++;
+                    if (count == 3 || count == 6 || count == 9)
+                    {
+                        z = x;
+                        x = y;
+                        y = z;
+                    }
+                    if(count==4 || count == 7)
+                    {
+                        y = y + 1;
+                    }
+                    mag[i, j] = mat[x, y];
+                }
+            }
+            for(int i = 0,j=col-1; i < row; i++,j--)
+                mag[i, a] = mat[j, j];
+            for(int i = 0; i < row; i++)
+            {
+                for (int j = 0; j < col; j++)
+                    val[i] += mag[i, j];
+            }
+            a = val[0];
+            for (int i = 0; i < row; i++)
+            {
+                int k = 3;
+                for (int j = 0; j < col; j++)
+                {
+                        val[k] += mag[j, i];
+                    k++;
+                }
+            }
+            for (int i = 0; i < 6; i++)
+                Console.WriteLine(val[i] + " ");
+            Console.WriteLine("The Magic Square Matrix is:");
+            for (int i = 0; i < row; i++)
+            {
+                for(int j = 0; j < col; j++)
+                {
+                    if (val[i] == a)
+                    {
+                        Console.Write(mag[i, j] + " ");
+                    }
+                }
+                Console.WriteLine();
+            }
+            Console.ReadKey();
+        }
+    }
+}

@@ -1,0 +1,65 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace House_Robber_2
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int temp = 0, str = 0, j = 0;
+            Console.WriteLine("Enter the number of house");
+            int num = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter the money in each house");
+            int[] money = new int[num];
+            for (int i = 0; i < num; i++)
+                money[i] = Convert.ToInt32(Console.ReadLine());
+            if (num == 0)
+                Console.WriteLine(0);
+            if (num == 1)
+                Console.WriteLine(money[num - 1]);
+            if (num == 2)
+            {
+                Console.WriteLine(0);
+            }
+            if (num >= 3)
+            {
+                for(int i = 0; i < num; i++)
+                {
+                    if (num % 2 == 0)
+                    {
+                        if (i % 2 == 0)
+                        {
+                            temp += money[i];
+                        }
+                        if (i % 2 != 0)
+                        {
+                            str += money[i];
+                        }
+                    }
+                    else
+                    {
+                        j = 1;
+                        if (j == 1 && i != num - 1)
+                        {
+                            if (i % 2 == 0)
+                            {
+                                temp += money[i];
+                            }
+                            if (i % 2 != 0)
+                            {
+                                str += money[i];
+                            }
+                            temp = Math.Max(temp, money[num - 1]);
+                        }
+                    }
+                }
+                Console.WriteLine(Math.Max(temp, str));
+            }
+            Console.ReadKey();
+        }
+    }
+}

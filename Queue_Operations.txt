@@ -1,0 +1,100 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Queue
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int i = 0;
+            Console.WriteLine("Enter the Queue size");
+            int size = Convert.ToInt32(Console.ReadLine());
+            int[] arr = new int[size];
+            for (i = 0; i < size; i++)
+                arr[i] = -1;
+            i = 0;
+            while (true)
+            {
+                int pop = -1;
+                Console.WriteLine("1.Enqueue\n2.Dequeue\n3.Find\n4.Display\n5.Exit");
+                Console.WriteLine("Select the option");
+                int option = Convert.ToInt32(Console.ReadLine());
+                switch (option)
+                {
+                    case 1:
+                        {
+                            if (i != size)
+                            {
+                                arr[i] = Convert.ToInt32(Console.ReadLine());
+                                Console.WriteLine("Element Inserted Successfully");
+                                i++;
+                            }
+                            if (i == size)
+                                Console.WriteLine("The Queue is full");
+                            break;
+                        }
+                    case 2:
+                        {
+                            for (int j = 0; j < size; j++)
+                            {
+                                if (arr[j] != -1)
+                                {
+                                    pop = arr[j];
+                                    arr[j] = -1;
+                                    i--;
+                                    break;
+                                }
+                            }
+                            for(int j = 1; j < size; j++)
+                            {
+                                arr[j - 1] = arr[j];
+                                arr[j] = -1;
+                            }
+                            if (pop != -1)
+                                Console.WriteLine("Last Dequeued Element is" + " " + pop);
+                            if (pop == -1)
+                                Console.WriteLine("The Queue is empty");
+                            break;
+                        }
+                    case 3:
+                        {
+                            int[] ind = new int[size];
+                            Console.WriteLine("Enter the element to search");
+                            int ele = Convert.ToInt32(Console.ReadLine());
+                            for (int j = 0; j < size; j++)
+                            {
+                                if (ele == arr[j])
+                                    ind[j] = j;
+                                else
+                                    ind[j] = -1;
+                            }
+                            for (int j = 0; j < size; j++)
+                            {
+                                if (ind[j] != -1)
+                                    Console.WriteLine("The element in the position" + " " + ind[j]);
+                            }
+                            break;
+                        }
+                    case 4:
+                        {
+                            Console.WriteLine("Total elements in the Queue are");
+                            for (int j = 0; j < size; j++)
+                            {
+                                if (arr[j] != -1)
+                                    Console.WriteLine(arr[j]);
+                            }
+                            break;
+                        }
+                }
+                if (option == 5)
+                {
+                    break;
+                }
+            }
+        }
+    }
+}

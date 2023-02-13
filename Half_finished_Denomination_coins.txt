@@ -1,0 +1,155 @@
+//Task-3
+
+//coin denomination
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Denomination_coin
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int count = 0, str = 0;
+            int[] coins = { 1, 2, 5 };
+            Console.WriteLine("Enter the amount");
+            int amt = Convert.ToInt32(Console.ReadLine());
+            int[] comb = new int[amt];
+            int[] dum = new int[amt];
+            while (true)
+            {
+                if (count == 0)
+                {
+                    for (int i = 0; i < amt; i++)
+                    {
+                        comb[i] = 1;
+                        Console.Write(comb[i]);
+                    }
+                    Console.WriteLine("\n");
+                    count++;
+                }
+                else if (count == 1)
+                {
+                    for (int i = 0; i < amt - 1;)
+                    {
+                        if (amt % 2 == 0)
+                        {
+                            comb[i] = comb[i] + comb[i + 1];
+                            comb[i + 1] = 0;
+                            for (int j = 0; j < amt; j++)
+                            {
+                                if (comb[j] != 0)
+                                {
+                                    Console.Write(comb[j]);
+                                }
+                            }
+                            Console.WriteLine("\n");
+                        }
+                        else
+                        {
+                            comb[i] = comb[i] + comb[i + 1];
+                            comb[i + 1] = 0;
+                            for (int j = 0; j < amt; j++)
+                            {
+                                if (comb[j] != 0)
+                                {
+                                    Console.Write(comb[j]);
+                                }
+                            }
+                            Console.WriteLine("\n");
+
+                        }
+                        i = i + 2;
+                    }
+                    count++;
+                }
+                else if (count == 2) 
+                {
+                    for(int i = 0; i < amt; i++)
+                    {
+                        comb[i] = 1;
+                    }
+                    for(int i = 0; i < 5; i++)
+                    {
+                        str += comb[i];
+                        comb[i] = 0;
+                    }
+                    comb[0] = str;
+                    if (amt % 2 == 0)
+                    {
+                        for(int i = 0; i < amt; i++)
+                        {
+                            if (comb[i] != 0)
+                            {
+                                Console.Write(comb[i]);
+                            }
+                        }
+                        Console.Write("\n");
+                        for (int i = 1; i < amt - 1;)
+                        {
+                            if (comb[i] != 0)
+                            {
+                                comb[i] = comb[i] + comb[i + 1];
+                                comb[i + 1] = 0;
+                                for (int j = 0; j < amt; j++)
+                                {
+                                    if (comb[j] != 0)
+                                    {
+                                        Console.Write(comb[j]);
+                                    }
+                                }
+                            }
+                            Console.WriteLine("\n");
+                            i = i + 2;
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < amt; i++)
+                        {
+                            if (comb[i] != 0)
+                            {
+                                Console.Write(comb[i]);
+                            }
+                        }
+                        Console.Write("\n");
+                        for (int i = 1; i < amt - 1;)
+                        {
+                            if (comb[i] != 0)
+                            {
+                                comb[i] = comb[i] + comb[i + 1];
+                                comb[i + 1] = 0;
+                                for (int j = 0; j < amt; j++)
+                                {
+                                    if (comb[j] != 0)
+                                    {
+                                        Console.Write(comb[j]);
+                                    }
+                                }
+                            }
+                            Console.WriteLine("\n");
+                            i = i + 2;
+                        }
+
+                    }
+                    count++;
+                }
+                //else
+                //{
+                //    for (int i = 5; i < amt; i++)
+                //    {
+                //        str += comb[i];
+                //        comb[i] = 0;
+                //    }
+                //}
+            }
+        }
+    }
+}
+
+
+//finish the 5's combination

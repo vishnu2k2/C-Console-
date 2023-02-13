@@ -1,0 +1,69 @@
+//Task-14
+
+//Palindrome Descendant
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Palindrome_Descendant
+{
+    class Program
+    {
+        public static bool Palindrome(int n)
+        {
+            int rem = 0, cpy = 0, temp = 0, temp1 = 0;
+            string name = "", cpy1 = "";
+            bool stmt = true;
+            cpy = n;
+            cpy1 = n.ToString();
+            int len = cpy1.Length;
+            for(int i = len; i >= 2;)
+            {
+                name = "";
+                while (n != 0)
+                {
+                    rem = n % 10;
+                    n = n / 10;
+                    name += rem.ToString();
+                }
+                n = Int32.Parse(name);
+                if (cpy == n)
+                {
+                    stmt = true;
+                }
+                else
+                {
+                    stmt = false;
+                }
+                char[] arr = name.ToCharArray();
+                name = "";
+                for (int j = 0; j < arr.Length-1;)
+                {
+                    temp = Int32.Parse(arr[j].ToString());
+                    temp1 = Int32.Parse(arr[j + 1].ToString());
+                    name += (temp + temp1).ToString();
+                    j = j + 2;
+                }
+                n = int.Parse(name.ToString());
+                cpy = n;
+                i = i / 2;
+            }
+            return stmt;
+        }
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Enter the number");
+            int num = Convert.ToInt32(Console.ReadLine());
+            bool res = Palindrome(num);
+            Console.WriteLine(res);
+            Console.ReadKey();
+        }
+    }
+}
+
+
+question: https://edabit.com/challenge/PvCD5nSYy3Dnvnfcq

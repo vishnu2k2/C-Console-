@@ -1,0 +1,159 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Student_Property
+{
+    public class student
+    {
+        private int[] rollNo;
+        private string[] name;
+        private float[] total;
+        public int[] RollNo
+        {
+            get
+            {
+                return rollNo;
+            }
+            set
+            {
+                rollNo = value;
+            }
+        }
+        public string[] Name
+        {
+            get
+            {
+                return name;
+            }
+            set
+            {
+                name = value;
+            }
+        }
+        public float[] Total
+        {
+            get
+            {
+                return total;
+            }
+            set
+            {
+                total = value;
+            }
+        }
+        public student(int elements)
+        {
+            RollNo = new int[elements];
+            Name = new string[elements];
+            Total = new float[elements];
+        }
+
+        public void UpdateArraySize(int size)
+        {
+            int[] temp = new int[RollNo.Length];
+            temp = RollNo;
+            RollNo = new int[size];
+            RollNo = temp;
+        }
+    }
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("-------------------Student Details----------------------");
+            int i = 0;
+            student s = new student(100);
+            while (true)
+            {
+                Console.WriteLine("1.Add\n2.Update\n3.Delete\n4.Display\n5.Exit");
+                Console.WriteLine("Select the operation to perform");
+                int option = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine();
+                switch (option)
+                {
+                    case 1:
+                        {
+                            int roll = 0;
+                            Console.WriteLine("Enter the student roll number");
+                            roll = Convert.ToInt32(Console.ReadLine());
+                            if (i != 0)
+                            {
+                                for(int j = 0; j < i; j++)
+                                {
+                                    if (roll == s.RollNo[j])
+                                    {
+                                        Console.WriteLine("Detail Already exsists!"+"\n");
+                                        goto brk;
+                                    }
+                                }
+                            }
+                            s.RollNo[i] = roll;
+                            Console.WriteLine("Enter the student name");
+                            s.Name[i] = (Console.ReadLine());
+                            Console.WriteLine("Enter the student total marks");
+                            s.Total[i] = Convert.ToSingle(Console.ReadLine());
+                            i++;
+                            Console.WriteLine("Added Successfully!"+"\n");
+                            brk:
+                               break;
+                        }
+                    case 2:
+                        {
+                            int temp = 0, flag = 0;
+                            Console.WriteLine("Enter the student roll number to update");
+                            temp = Convert.ToInt32(Console.ReadLine());
+                            for(int j = 0; j < 100; j++)
+                            {
+                                if (temp == s.RollNo[j])
+                                {
+                                    Console.WriteLine("Enter the student name to update");
+                                    s.Name[j] = (Console.ReadLine());
+                                    Console.WriteLine("Enter the student total marks to update");
+                                    s.Total[j] = Convert.ToSingle(Console.ReadLine());
+                                    flag = 1;
+                                }
+                            }
+                            if (flag == 1) 
+                                Console.WriteLine("Updated Successfully!" + "\n");
+                            else
+                                Console.WriteLine("Detail is not available to update!" + "\n");
+                            break;
+                        }
+                    case 3:
+                        {
+                            int temp = 0, flag = 0;
+                            Console.WriteLine("Enter the student roll number to delete");
+                            temp = Convert.ToInt32(Console.ReadLine());
+                            for(int j = 0; j < 100; j++)
+                            {
+                                if (temp == s.RollNo[j])
+                                {
+                                    s.RollNo[j] = 0;
+                                    s.Name[j] = "";
+                                    s.Total[j] = 0;
+                                    flag = 1;
+                                }
+                            }
+                            if (flag == 1) 
+                                Console.WriteLine("Deleted Successfully!" + "\n");
+                            else
+                                Console.WriteLine("Detail is not available to delete!" + "\n");
+                            break;
+                        }
+                    case 4:
+                        {
+                            for (int j = 0; j < 100; j++)
+                                if(s.RollNo[j]!=0)
+                                    Console.WriteLine("The Student Roll no:"+" "+s.RollNo[j]+" "+"Name:"+" "+s.Name[j]+" "+"Total marks:"+" "+s.Total[j]+"\n");
+                            break;
+                        }
+                }
+                if (option == 5)
+                    break;
+            }
+        }
+    }
+}

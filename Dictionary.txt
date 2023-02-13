@@ -1,0 +1,42 @@
+//Dictionary
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Dictionary
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Dictionary<int, string> dict = new Dictionary<int, string>();
+                Console.WriteLine("What operation do you perform?");
+                Console.WriteLine("1.Add 2.Remove");
+                int option = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Enter the number of employees");
+                    int num = Convert.ToInt32(Console.ReadLine());
+                    Console.WriteLine("Enter the employee roll no and name");
+                    for (int i = 0; i < num; i++)
+                    {
+                        int roll = Convert.ToInt32(Console.ReadLine());
+                        string name = Console.ReadLine();
+                        dict.Add(roll, name);
+                    }
+                    foreach (KeyValuePair<int, string> k in dict)
+                    {
+                        Console.WriteLine("Roll No:" + k.Key + " " + "Name:" + k.Value);
+                    }
+                    Console.WriteLine("Enter the employee roll no to remove");
+                    int roll_no = Convert.ToInt32(Console.ReadLine());
+                    dict.Remove(roll_no);
+                    foreach (KeyValuePair<int, string> k in dict)
+                    {
+                        Console.WriteLine("Roll No:" + k.Key + " " + "Name:" + k.Value);
+                    }
+            Console.ReadKey();
+        }
+    }
+}

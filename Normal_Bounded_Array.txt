@@ -1,0 +1,121 @@
+//Task - 1
+
+//Normal Bounded array
+
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Bounded_Array
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int count = 0, as2 = 1, as1 = 1, temp = 0, temp1 = 0,i = 0,flag = 0;
+            int[] a = new int[100];
+            int[] b = new int[100];
+            int[] c = new int[100];
+            int[] d = new int[100];
+            while (true)
+            {
+                Console.WriteLine("Enter the lower bound and upper bound");
+                int low = Convert.ToInt32(Console.ReadLine());
+                int upp = Convert.ToInt32(Console.ReadLine());
+                if (count == 0)
+                {
+                    c[temp] = low;
+                    d[temp] = upp;
+                    temp++;
+                    count++;
+                }
+                else
+                {
+                    for (i = 0; i < temp; i++)
+                    {
+                        if ((low <= a[i] && low >= b[i]) && upp <= b[i])
+                        {
+                            low = a[i];
+                            a[i] = -999;
+                        }
+                        else if ((low <= a[i] && upp <= b[i]) && upp >= a[i])
+                        {
+                            upp = b[i];
+                            b[i] = -999;
+                        }
+                        else if ((low <= a[i] && low <= b[i]) && (upp <= a[i] && upp >= b[i]))
+                        {
+                            low = a[i];
+                            upp = b[i];
+                            a[i] = -999;
+                            b[i] = -999;
+                        }
+                        else if ((low >= a[i] && low <= b[i]) && upp >= b[i])
+                        {
+                            low = a[i];
+                            a[i] = -999;
+                        }
+                        else if ((low >= a[i] && low <= b[i])&& upp <= b[i])
+                        {
+                            low = a[i];
+                            upp = b[i];
+                            a[i] = -999;
+                            b[i] = -999;
+                        }
+                        else if (low <= a[i] && upp >= b[i])
+                        {
+                            a[i] = -999;
+                            b[i] = -999;
+                            continue;
+                        }
+                        else
+                        {
+                            flag = 1;
+                        }
+
+                    }
+                    if (flag == 0)
+                    {
+                        c[temp] = low;
+                        d[temp] = upp;
+                        temp++;
+                    }
+                    else
+                    {
+                        for (i = 0; i < temp; i++)
+                        {
+                            if (a[i] != -999 && b[i] != -999)
+                            {
+                                c[i] = a[i];
+                                d[i] = b[i];
+                            }
+                        }
+                        c[temp] = low;
+                        d[temp] = upp;
+                        temp++;
+                    }
+                }
+                for(i = 0; i < temp; i++)
+                {
+                    if (c[i] != -999 && d[i] != -999)
+                    {
+                        Console.WriteLine(c[i] + "-" + d[i]);
+                    }
+                }
+                for(i = 0; i < temp; i++)
+                {
+                    a[i] = c[i];
+                    b[i] = d[i];
+                }
+                for (i = 0; i < temp; i++)
+                {
+                    c[i] = -999;
+                    d[i] = -999;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,123 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Jump_Game
+{
+    class Program
+    {
+        static void Main(string[] args)
+
+        {
+
+            Console.WriteLine("Enter the string to be printed:");
+
+            string input = Console.ReadLine();
+
+
+            int length = input.Length;
+
+
+            for (int i = 0; i < length; i++)
+
+            {
+
+                for (int j = 0; j <= i; j++)
+
+                {
+
+                    Console.Write(input[j]);
+
+                }
+
+                Console.WriteLine();
+
+            }
+
+
+            for (int i = length - 2; i >= 0; i--)
+
+            {
+
+                for (int j = 0; j <= i; j++)
+
+                {
+ 
+                   Console.Write(input[j]);
+
+                }
+
+                Console.WriteLine();
+
+            }
+
+            Console.ReadLine();
+
+        }
+
+    }
+
+}
+
+
+
+Wave pattern printing
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Jump_Game
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Enter the string");
+            string name = Console.ReadLine();
+            Console.WriteLine("Enter the number of elements in a wave");
+            int num = Convert.ToInt32(Console.ReadLine());
+            if (num == 1)
+            {
+                Console.WriteLine(name);
+            }
+            int len = name.Length;
+            char[,] arr = new char[len, len];
+            int row = 0;
+            bool down = true;
+            for (int i = 0; i < len; i++)
+            {
+                arr[row, i] = name[i];
+                if (row == num - 1)
+                {
+                    down = false;
+                }
+                else if (row == 0) 
+                {
+                    down = true;
+                }
+                if (down == true)
+                {
+                    row++;
+                }
+                else
+                {
+                    row--;
+                }
+            }
+                for (int i = 0; i < num; i++)
+                {
+                    for (int j = 0; j < len; j++)
+                    {
+                        Console.Write(arr[i, j]);
+                    }
+                    Console.WriteLine();
+                }
+            Console.ReadLine();
+        }
+    }
+}

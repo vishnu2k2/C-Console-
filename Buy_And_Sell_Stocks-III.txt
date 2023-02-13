@@ -1,0 +1,79 @@
+Partially completed
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Buy_And_Sell_Stocks
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int dum = 0, min = 0, min1 = 0, ind2 = 0, max = 0, sum = 0, max1 = 0, ind = 0, ind1 = 0;
+            Console.WriteLine("Enter the number of days");
+            int num = Convert.ToInt32(Console.ReadLine());
+            int[] amt = new int[num];
+            int[] dummy = new int[100];
+            Console.WriteLine("Enter the amount for all days");
+            for(int i = 0; i < num; i++)
+            {
+                int n = Convert.ToInt32(Console.ReadLine());
+                amt[i] = n;
+            }
+            min = amt[0];max = amt[0];
+            min1 = amt[0];max1 = amt[0];
+            for (int i = 0; i < num; i++)
+            {
+                if (min1 >= amt[i])
+                {
+                    min1 = amt[i];
+                    ind = i;
+                }
+            }
+            //for(int i = ind; i < num; i++)
+            //{
+            //    if (min1 >= amt[i])
+            //    {
+            //        min1 = amt[i];
+            //        ind1 = i;
+            //    }
+            //}
+
+            for(int i = 0; i < ind; i++)
+            {
+                if (max <= amt[i])
+                {
+                    max = amt[i];
+                    ind1 = i;
+                }
+            }
+            for ( int i = ind; i < num; i++)
+            {
+                if (max1 <= amt[i])
+                {
+                    max1 = amt[i];
+                    ind2 = i;
+                    dum++;
+                }
+            }
+            if (dum>0) 
+            {
+                sum += ((max - min) + (max1 - min1));
+            }
+            if(dum==0)
+            {
+                sum += (max - min);
+            }
+            Console.WriteLine("\n");
+            Console.WriteLine(sum);
+            Console.ReadKey();
+        }
+    }
+}
+
+
+question:  Leetcode 123

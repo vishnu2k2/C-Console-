@@ -1,0 +1,43 @@
+//A Array values is divisible by 60 if not join two numbers in the array to divide that number
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Time_DivideBy_60
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int count = 0;
+            Console.WriteLine("Enter the size of the array");
+            int num = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter the elements");
+            int[] time = new int[num];
+            for(int i = 0; i < num; i++)
+            {
+                int n = Convert.ToInt32(Console.ReadLine());
+                time[i] = n;
+            }
+            for(int i = 0; i < num; i++)
+            {
+                for(int j = i + 1; j < num; j++)
+                {
+                    if (i < j)
+                    {
+                        if ((time[i] + time[j]) % 60 == 0)
+                        {
+                            count++;
+                        }
+                    }
+                }
+            }
+            Console.WriteLine(count);
+            Console.ReadKey();
+        }
+    }
+}s

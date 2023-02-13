@@ -1,0 +1,41 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Platform_Train
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int platform = 1, result = 1;
+            Console.WriteLine("Enter the number of trains");
+            int num = Convert.ToInt32(Console.ReadLine());
+            int[] arrival = new int[num];
+            int[] depart = new int[num];
+            Console.WriteLine("Enter the arrival time");
+            for (int i = 0; i < num; i++)
+                arrival[i] = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter the departure time");
+            for (int i = 0; i < num; i++)
+                depart[i] = Convert.ToInt32(Console.ReadLine());
+            for(int i = 0; i < num; i++)
+            {
+                platform = 1;
+                for(int j = 0; j < num; j++)
+                {
+                    if (i != j)
+                    {
+                        if (arrival[i] >= arrival[j] && depart[j] >= arrival[i])
+                            platform++;
+                    }
+                }
+                result = Math.Max(result, platform);
+            }
+            Console.WriteLine(result);
+            Console.ReadKey();
+        }
+    }
+}

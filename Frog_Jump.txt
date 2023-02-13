@@ -1,0 +1,41 @@
+frog jump using memozation
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Frog_Jump
+{
+    class Program
+    {
+        public static int MinEnergy(int[] arr, int n, int[] dp)
+        {
+            int left, right=9999999;
+            if (n == 0)
+                return 0;
+            if (dp[n] != -1)
+                return dp[n];
+            left = MinEnergy(arr, n - 1, dp) + Math.Abs(arr[n] - arr[n - 1]);
+            if (n > 1)
+                right = MinEnergy(arr, n - 2, dp) + Math.Abs(arr[n] - arr[n - 2]);
+            return dp[n]=Math.Min(left, right);
+        }
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Enter the size of the array");
+            int num = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter the array elements");
+            int[] arr = new int[num];
+            int[] dp = new int[num+1];
+            for (int i = 0; i < num; i++) 
+                arr[i] = Convert.ToInt32(Console.ReadLine());
+            for (int i = 0; i < num + 1; i++)
+                dp[i] = -1;
+            int result = MinEnergy(arr, num - 1,dp);
+            Console.WriteLine(result);
+            Console.ReadKey();
+        }
+    }
+}

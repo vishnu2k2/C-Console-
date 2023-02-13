@@ -1,0 +1,74 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Jump_Game
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string dummy = "";
+            int a = 0, b = 0;
+            int[] al = new int[20];
+            Console.WriteLine("Enter the string");
+            string name = Console.ReadLine();
+            char[] arr = name.ToCharArray();
+            int len = arr.Length;
+            string[] str = new string[len];
+            for (int i = 0; i < len; i++)
+                str[i] = "";
+            for (int i = 0; i < len - 1; i++)
+            {
+                dummy = "";
+                dummy += arr[i];
+                for (int j = i+1 ; j < len; j++)
+                {
+                    if (arr[i] == arr[j])
+                    {
+                        break;
+                    }
+                    dummy += arr[j];
+                }
+                str[i] = dummy;
+            }
+            for (int i = 0; i < len - 1; i++)
+            {
+                a = 0;
+                b = 1;
+                char[] dum = str[i].ToCharArray();
+                for (int j = i + 1; j < dum.Length; j++)
+                {
+                    if (a < dum.Length && b < dum.Length)
+                    {
+                        if (dum[a] == dum[b])
+                        {
+                            a++;
+                            str[i] = "";
+                            continue;
+                        }
+                        a++;
+                    }
+                }
+            }
+            for (int i = 1; i < str.Length; i++)
+            {
+                al[i] = str[i].Length;
+            }
+            int max = al[0];
+            for (int i = 0; i < al.Length; i++)
+            {
+                if (max < al[i])
+                {
+                    max = al[i];
+                }
+            }
+            Console.WriteLine(max);
+            Console.ReadKey();
+        }
+    }
+}
+
+Question: https://leetcode.com/problems/longest-substring-without-repeating-characters/

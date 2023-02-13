@@ -1,0 +1,657 @@
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Student_Property
+{
+    public delegate string Print(string str);
+    public delegate void Printrow(List<student> students, int a);
+    public class student
+    {
+
+        public int RollNo { get; set; }
+        public string Name { get; set; }
+        public float Total { get; set; }
+        public float Mark1 { get; set; }
+        public float Mark2 { get; set; }
+        public float Mark3 { get; set; }
+        public float Mark4 { get; set; }
+        public float Mark5 { get; set; }
+        public float Average { get; set; }
+        public string[] vam { get; set; }
+        public student()
+        {
+            vam = new string[9];
+        }
+    }
+    public class StudentManager
+    {
+        List<student> students = new List<student>();
+        List<student> stud = new List<student>();
+        static int tableWidth = 73;
+        event Print Myevent;
+        event Printrow ArrEvent;
+        public StudentManager()
+        {
+            this.Myevent += new Print(this.Wrong);
+            this.ArrEvent += new Printrow(this.array);
+        }
+        public string Wrong(string uname)
+        {
+            return uname + " " + "Successfully" + "\n";
+        }
+        public void array(List<student> students, int a)
+        {
+            if (a == -1)
+            {
+                for (int i = 0; i < students.Count; i++)
+                {
+                    PrintRow(students[i].RollNo.ToString(), students[i].Name, students[i].Mark1.ToString(), students[i].Mark2.ToString(), students[i].Mark3.ToString(), students[i].Mark4.ToString(), students[i].Mark5.ToString(), students[i].Total.ToString(), students[i].Average.ToString());
+                    PrintLine();
+                }
+            }
+            else
+            {
+                for (int i = a; i < students.Count; i++)
+                {
+                    PrintRow(students[i].RollNo.ToString(), students[i].Name, students[i].Mark1.ToString(), students[i].Mark2.ToString(), students[i].Mark3.ToString(), students[i].Mark4.ToString(), students[i].Mark5.ToString(), students[i].Total.ToString(), students[i].Average.ToString());
+                    PrintLine();
+                }
+            }
+        }
+        static void PrintLine()
+        {
+            Console.WriteLine(new string('-', tableWidth));
+        }
+        public void PrintRow(params string[] columns)
+        {
+            int width = (tableWidth - columns.Length) / columns.Length;
+            string row = "|";
+            foreach (string column in columns)
+            {
+                row += AlignCentre(column, width) + "|";
+            }
+            Console.WriteLine(row);
+        }
+
+        static string AlignCentre(string text, int width)
+        {
+            text = text.Length > width ? text.Substring(0, width - 3) + "..." : text;
+
+            if (string.IsNullOrEmpty(text))
+            {
+                return new string(' ', width);
+            }
+            else
+            {
+                return text.PadRight(width - (width - text.Length) / 2).PadLeft(width);
+            }
+        }
+        float mark1 = 0, mark2 = 0, mark3 = 0, mark4 = 0, mark5 = 0; string[] res = new string[9];
+        string result = ""; string[] vam = { "Roll No", "Name", "Tamil", "English", "Maths", "Science", "Social", "Total", "Average" };
+        //public void assign(params string[] name)
+        //{
+        //    for (int i = 0; i < name.Length; i++)
+        //        vam[i] = name[i];
+        //    res = ArrEvent?.Invoke(vam);
+        //    PrintRow(res);
+        //}
+        public void call()
+        {
+            PrintLine();
+            PrintRow(vam);
+        }
+        public bool addDetails(student s, int i)
+        {
+            int roll = 0; float tot = 0;
+            st:
+            {
+                Console.WriteLine("Enter the student roll number");
+                roll = Convert.ToInt32(Console.ReadLine());
+                if (i != 0)
+                {
+                    for (int j = 0; j < i; j++)
+                    {
+                        if (roll == students[j].RollNo)
+                        {
+                            Console.WriteLine("Detail Already exsists!" + "\n");
+                            goto st;
+                        }
+                    }
+                }
+                s.RollNo = roll;
+                Console.WriteLine("Enter the student name");
+                s.Name = Console.ReadLine();
+                brk:
+                {
+                    Console.WriteLine("Enter Tamil mark");
+                    mark1 = (Convert.ToSingle(Console.ReadLine()));
+                    Console.WriteLine("Enter English mark");
+                    mark2 = (Convert.ToSingle(Console.ReadLine()));
+                    Console.WriteLine("Enter Maths mark");
+                    mark3 = (Convert.ToSingle(Console.ReadLine()));
+                    Console.WriteLine("Enter Science mark");
+                    mark4 = (Convert.ToSingle(Console.ReadLine()));
+                    Console.WriteLine("Enter Social mark");
+                    mark5 = (Convert.ToSingle(Console.ReadLine()));
+                }
+                if (mark1 > 100 || mark2 > 100 || mark3 > 100 || mark4 > 100 || mark5 > 100)
+                {
+                    Console.WriteLine("Enter the correct Marks" + "\n");
+                    goto brk;
+                }
+                else
+                {
+                    tot = (mark1 + mark2 + mark3 + mark4 + mark5);
+                    s.Mark1 = mark1;
+                    s.Mark2 = mark2;
+                    s.Mark3 = mark3;
+                    s.Mark4 = mark4;
+                    s.Mark5 = mark5;
+                    s.Total = tot;
+                    s.Average = tot / 5;
+                }
+                students.Add(s);
+                result = Myevent?.Invoke("Added");
+                Console.WriteLine(result + "\n");
+                return true;
+            }
+        }
+        public bool updateDetails(student s, int i)
+        {
+
+
+            if (students.Count == 0)
+            {
+                Console.WriteLine("No details available. Please enter details" + "\n");
+                addDetails(s, i);
+                return true;
+            }
+            int temp = 0, flag = 0; float tot = 0;
+            Console.WriteLine("Enter the student roll number to update");
+            temp = Convert.ToInt32(Console.ReadLine());
+            for (int j = 0; j < students.Count; j++)
+            {
+                if (temp == students[j].RollNo)
+                {
+                    Console.WriteLine("Enter the student name to update");
+                    students[j].Name = (Console.ReadLine());
+                    brk:
+                    {
+                        Console.WriteLine("Enter Tamil mark");
+                        mark1 = (Convert.ToSingle(Console.ReadLine()));
+                        Console.WriteLine("Enter English mark");
+                        mark2 = (Convert.ToSingle(Console.ReadLine()));
+                        Console.WriteLine("Enter Maths mark");
+                        mark3 = (Convert.ToSingle(Console.ReadLine()));
+                        Console.WriteLine("Enter Science mark");
+                        mark4 = (Convert.ToSingle(Console.ReadLine()));
+                        Console.WriteLine("Enter Social mark");
+                        mark5 = (Convert.ToSingle(Console.ReadLine()));
+                    }
+                    if (mark1 > 100 || mark2 > 100 || mark3 > 100 || mark4 > 100 || mark5 > 100)
+                    {
+                        Console.WriteLine("Enter the correct Marks" + "\n");
+                        goto brk;
+                    }
+                    else
+                    {
+                        tot = (mark1 + mark2 + mark3 + mark4 + mark5);
+                        students[j].Mark1 = mark1;
+                        students[j].Mark2 = mark2;
+                        students[j].Mark3 = mark3;
+                        students[j].Mark4 = mark4;
+                        students[j].Mark5 = mark5;
+                        students[j].Total = tot;
+                        students[j].Average = tot / 5;
+                    }
+                    flag = 1;
+                }
+            }
+            if (flag == 1)
+            {
+                stud.Clear();
+                result = Myevent?.Invoke("Updated");
+                Console.WriteLine(result + "\n");
+                return true;
+            }
+            else
+                return false;
+        }
+        public bool deleteDetails(student s, int i)
+        {
+            if (students.Count == 0)
+            {
+                return false;
+            }
+            int temp = 0, flag = 0;
+            Console.WriteLine("Enter the student roll number to delete");
+            temp = Convert.ToInt32(Console.ReadLine());
+            for (int j = 0; j < students.Count; j++)
+            {
+                if (temp == students[j].RollNo)
+                {
+                    students.RemoveAt(j);
+                    flag = 1;
+                }
+            }
+            if (flag == 1)
+            {
+                result = Myevent?.Invoke("deleted");
+                Console.WriteLine(result + "\n");
+                return true;
+            }
+            else
+                return false;
+        }
+
+
+        public bool searchDetails(student s)
+        {
+            if (students.Count == 0)
+            {
+                return false;
+            }
+            int temp1 = 0, flag = 0, search = 0, mark = 0; float avg = 0;
+            string oper = "", temp = ""; char val; string nam; int count = 0, f = 0;
+            Console.WriteLine("Enter which method to search");
+            Console.WriteLine("1.Roll No\n2.Name\n3.Marks\n");
+            search = Convert.ToInt32(Console.ReadLine());
+            if (search == 1)
+            {
+                start:
+                {
+                    stud.Clear();
+                    Console.WriteLine("Enter the student roll number");
+                    temp1 = Convert.ToInt32(Console.ReadLine());
+                    for (int j = 0; j < students.Count; j++)
+                    {
+                        if (temp1 == students[j].RollNo)
+                        {
+                            stud.Add(students[j]);
+                            flag = 1;
+                        }
+                    }
+                }
+                call();
+                PrintLine();
+                ArrEvent?.Invoke(stud, -1);
+                stud.Clear();
+                if (flag == 0)
+                {
+                    Console.WriteLine("The detail is not available!." + "\n");
+                    Console.WriteLine("Do you want to continue. Press 'y'" + "\n");
+                    val = Convert.ToChar(Console.ReadLine());
+                    if (val == 'y')
+                        goto start;
+                }
+            }
+            if (search == 2)
+            {
+                start1:
+                {
+                    stud.Clear();
+                    Console.WriteLine("Enter the Name");
+                    nam = Console.ReadLine();
+                    char[] arr = nam.ToCharArray();
+                    for (int j = 0; j < students.Count; j++)
+                    {
+                        //char[] nem = students[j].Name.ToCharArray();
+                        //for (int x = 0; x < arr.Length; x++)
+                        //{
+                        //    for (int y = 0; y < nem.Length; y++)
+                        //    {
+                        //        if (count == 0)
+                        //            f = -1;
+                        //        if (nem[y] == ' ')
+                        //        {
+                        //            f = -1;
+                        //            continue;
+                        //        }
+                        //        if (f == -1 && arr[x] == nem[y])
+                        //        {
+                        //            count++;
+                        //            nem[y] = ' ';
+                        //            f = -1;
+                        //        }
+                        //        f++;
+                        //    }
+                        //}
+                        //if (count != arr.Length)
+                        //    return false;
+                        //if (count == arr.Length)
+                        //{
+                        //    stud.Add(students[j]);
+                        //    flag = 1;
+                        //    count = 0;
+                        //}
+                        if (students[j].Name.Contains(nam))
+                        {
+                            stud.Add(students[j]);
+                            flag = 1;
+                        }
+                    }
+                }
+                call();
+                PrintLine();
+                ArrEvent?.Invoke(stud, -1);
+                stud.Clear();
+                if (flag == 0)
+                {
+                    Console.WriteLine("The detail is not available!." + "\n");
+                    count = 0;
+                    Console.WriteLine("Do you want to continue. Press 'y'" + "\n");
+                    val = Convert.ToChar(Console.ReadLine());
+                    if (val == 'y')
+                        goto start1;
+                }
+            }
+            if (search == 3)
+            {
+                int sum = 0;
+                Console.WriteLine("1.Overall subject\n2.Particular subject");
+                int num = Convert.ToInt32(Console.ReadLine());
+                if (num == 1)
+                {
+                    start4:
+                    {
+                        stud.Clear();
+                        Console.WriteLine("Enter the operator > ,< , =");
+                        oper = Console.ReadLine();
+                        Console.WriteLine("Enter the mark");
+                        mark = Convert.ToInt32(Console.ReadLine());
+                        for (int j = 0; j < students.Count; j++)
+                        {
+                            avg = students[j].Total / 5;
+                            if (oper.CompareTo(">") == 0 && students[j].Mark1 > mark && students[j].Mark2 > mark && students[j].Mark3 > mark && students[j].Mark4 > mark && students[j].Mark5 > mark)
+                            {
+                                if (sum == 0)
+                                    call();
+                                stud.Add(students[j]);
+                                PrintLine(); flag = 1; sum++;
+                            }
+                            if (oper.CompareTo("<") == 0 && students[j].Mark1 < mark && students[j].Mark2 < mark && students[j].Mark3 < mark && students[j].Mark4 < mark && students[j].Mark5 < mark)
+                            {
+                                if (sum == 0)
+                                    call();
+                                stud.Add(students[j]);
+                                PrintLine(); flag = 1; sum++;
+                            }
+                            if (oper.CompareTo("=") == 0 && students[j].Mark1 == mark && students[j].Mark2 == mark && students[j].Mark3 == mark && students[j].Mark4 == mark && students[j].Mark5 == mark)
+                            {
+                                if (sum == 0)
+                                    call();
+                                stud.Add(students[j]);
+                                PrintLine(); flag = 1; sum++;
+                            }
+                        }
+                    }
+                    call();
+                    PrintLine();
+                    ArrEvent?.Invoke(stud, -1);
+                    stud.Clear();
+                    if (flag == 0)
+                    {
+                        Console.WriteLine("The detail is not available!." + "\n");
+                        Console.WriteLine("Do you want to continue. Press 'y'" + "\n");
+                        val = Convert.ToChar(Console.ReadLine());
+                        if (val == 'y')
+                            goto start4;
+                    }
+                }
+                if (num == 2)
+                {
+                    start2:
+                    {
+                        stud.Clear();
+                        Console.WriteLine("Enter the subject to group them");
+                        temp = (Console.ReadLine());
+                        Console.WriteLine("Enter the operator > ,< , =");
+                        oper = Console.ReadLine();
+                        Console.WriteLine("Enter the mark");
+                        mark = Convert.ToInt32(Console.ReadLine());
+                        for (int j = 0; j < students.Count; j++)
+                        {
+                            avg = students[j].Total / 5;
+                            if (temp == "tamil" && oper.CompareTo(">") == 0 && students[j].Mark1 > mark)
+                            {
+                                if (sum == 0)
+                                    call();
+                                stud.Add(students[j]);
+                                PrintLine(); flag = 1; sum++;
+                            }
+                            if (temp == "tamil" && oper.CompareTo("<") == 0 && students[j].Mark1 < mark)
+                            {
+                                if (sum == 0)
+                                    call();
+                                stud.Add(students[j]);
+                                PrintLine(); flag = 1; sum++;
+                            }
+                            if (temp == "tamil" && oper.CompareTo("=") == 0 && students[j].Mark1 == mark)
+                            {
+                                if (sum == 0)
+                                    call();
+                                stud.Add(students[j]);
+                                PrintLine(); flag = 1; sum++;
+                            }
+                            if (temp == "english" && oper.CompareTo(">") == 0 && students[j].Mark2 > mark)
+                            {
+                                if (sum == 0)
+                                    call();
+                                stud.Add(students[j]);
+                                PrintLine(); flag = 1; sum++;
+                            }
+                            if (temp == "english" && oper.CompareTo("<") == 0 && students[j].Mark2 < mark)
+                            {
+                                if (sum == 0)
+                                    call();
+                                stud.Add(students[j]);
+                                PrintLine(); flag = 1; sum++;
+                            }
+                            if (temp == "english" && oper.CompareTo("=") == 0 && students[j].Mark2 == mark)
+                            {
+                                if (sum == 0)
+                                    call();
+                                stud.Add(students[j]);
+                                PrintLine(); flag = 1; sum++;
+                            }
+                            if (temp == "maths" && oper.CompareTo(">") == 0 && students[j].Mark3 > mark)
+                            {
+                                if (sum == 0)
+                                    call();
+                                stud.Add(students[j]);
+                                PrintLine(); flag = 1; sum++;
+                            }
+                            if (temp == "maths" && oper.CompareTo("<") == 0 && students[j].Mark3 < mark)
+                            {
+                                if (sum == 0)
+                                    call();
+                                stud.Add(students[j]);
+                                PrintLine(); flag = 1; sum++;
+                            }
+                            if (temp == "maths" && oper.CompareTo("=") == 0 && students[j].Mark3 == mark)
+                            {
+                                if (sum == 0)
+                                    call();
+                                stud.Add(students[j]);
+                                PrintLine(); flag = 1; sum++;
+                            }
+                            if (temp == "science" && oper.CompareTo(">") == 0 && students[j].Mark4 > mark)
+                            {
+                                if (sum == 0)
+                                    call();
+                                stud.Add(students[j]);
+                                PrintLine(); flag = 1; sum++;
+                            }
+                            if (temp == "science" && oper.CompareTo("<") == 0 && students[j].Mark4 < mark)
+                            {
+                                if (sum == 0)
+                                    call();
+                                stud.Add(students[j]);
+                                PrintLine(); flag = 1; sum++;
+                            }
+                            if (temp == "science" && oper.CompareTo("=") == 0 && students[j].Mark4 == mark)
+                            {
+                                if (sum == 0)
+                                    call();
+                                stud.Add(students[j]);
+                                PrintLine(); flag = 1; sum++;
+                            }
+                            if (temp == "social" && oper.CompareTo(">") == 0 && students[j].Mark5 > mark)
+                            {
+                                if (sum == 0)
+                                    call();
+                                stud.Add(students[j]);
+                                PrintLine(); flag = 1; sum++;
+                            }
+                            if (temp == "social" && oper.CompareTo("<") == 0 && students[j].Mark5 < mark)
+                            {
+                                if (sum == 0)
+                                    call();
+                                stud.Add(students[j]);
+                                PrintLine(); flag = 1; sum++;
+                            }
+                            if (temp == "social" && oper.CompareTo("=") == 0 && students[j].Mark5 == mark)
+                            {
+                                if (sum == 0)
+                                    call();
+                                stud.Add(students[j]);
+                                PrintLine(); flag = 1; sum++;
+                            }
+                        }
+                    }
+                    call();
+                    PrintLine();
+                    ArrEvent?.Invoke(stud, -1);
+                    stud.Clear();
+                    if (flag == 0)
+                    {
+                        Console.WriteLine("The detail is not available!." + "\n");
+                        Console.WriteLine("Do you want to continue. Press 'y'" + "\n");
+                        val = Convert.ToChar(Console.ReadLine());
+                        if (val == 'y')
+                            goto start2;
+                    }
+                }
+
+            }
+            if (flag == 0)
+                return false;
+            else
+            {
+                ArrEvent?.Invoke(stud, 1);
+                stud.Clear();
+                result = Myevent?.Invoke("Searched");
+                Console.WriteLine(result + "\n");
+                return true;
+            }
+        }
+        public bool displayDetails(student s)
+        {
+            stud.Clear();
+            int flag = 0; float avg = 0;
+            if (students.Count == 0)
+            {
+                return false;
+            }
+            call();
+            PrintLine();
+            for (int j = 0; j < students.Count; j++)
+            {
+                if (students.Count != 0)
+                {
+                    avg = students[j].Total / 5;
+                    stud.Add(students[j]);
+                }
+                flag = 1;
+            }
+            if (flag == 0)
+                return false;
+            else
+            {
+                ArrEvent?.Invoke(stud, -1);
+                stud.Clear();
+                result = Myevent?.Invoke("Displayed");
+                Console.WriteLine(result + "\n");
+                return true;
+            }
+        }
+    }
+    class Program
+    {
+
+        static void Main(string[] args)
+        {
+
+            Console.WriteLine("-------------------Student Details----------------------");
+            int i = 0;
+            StudentManager sms = new StudentManager();
+            while (true)
+            {
+                bool chk = true;
+                student s = new student();
+                Console.WriteLine("\n1.Add\n2.Update\n3.Delete\n4.Search\n5.Display All\n6.Exit\n");
+                Console.WriteLine("Select the operation to perform");
+                int option = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine();
+                switch (option)
+                {
+                    case 1:
+                        {
+                            chk = sms.addDetails(s, i);
+                            if (chk == false)
+                                Console.WriteLine("Enter the correct Details" + "\n");
+                            i++;
+                            break;
+                        }
+                    case 2:
+                        {
+                            chk = sms.updateDetails(s, i);
+                            if (chk == false)
+                            {
+                                Console.WriteLine("\n" + "Last Chance! Enter correct roll number to update" + "\n");
+                                chk = sms.updateDetails(s, i);
+                                if (chk == false)
+                                {
+                                    Console.WriteLine("Again you are entered a wrong roll no");
+                                }
+                            }
+                            break;
+                        }
+                    case 3:
+                        {
+                            chk = sms.deleteDetails(s, i);
+                            if (chk == false)
+                                Console.WriteLine("No Details available to delete" + "\n");
+                            i--;
+                            break;
+                        }
+                    case 4:
+                        {
+                            chk = sms.searchDetails(s);
+                            if (chk == false)
+                                Console.WriteLine("No Details available to search" + "\n");
+                            break;
+                        }
+                    case 5:
+                        {
+                            chk = sms.displayDetails(s);
+                            if (chk == false)
+                                Console.WriteLine("No Details available to print" + "\n");
+                            break;
+                        }
+                    default:
+                        {
+                            Console.WriteLine("Enter the valid number!");
+                            break;
+                        }
+                }
+                if (option == 6)
+                    break;
+            }
+        }
+    }
+}

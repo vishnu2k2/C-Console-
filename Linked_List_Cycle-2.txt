@@ -1,0 +1,101 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Jump_Game
+{
+    public class Node
+    {
+        public int Data { get; set; }
+        public Node Next { get; set; }
+
+        public Node(int data)
+        {
+            Data = data;
+            Next = null;
+        }
+    }
+
+    public class CircularLinkedList
+    {
+        private Node head;
+        private Node str;
+
+        public CircularLinkedList()
+        {
+            head = null;
+        }
+
+        public void AddToEnd(int data, int pos, int node, int count)
+        {
+            if (head == null)
+            {
+                head = new Node(data);
+                head.Next = head;
+                return;
+            }
+
+            Node current = head;
+
+            while (current.Next != head)
+            {
+                current = current.Next;
+            }
+
+            current.Next = new Node(data);
+            current.Next.Next = head;
+            if (pos == count)
+            {
+                str = current.Next;
+            }
+            if (node -1 == count)
+            {
+                current.Next.Next = str;
+            }
+        }
+
+        public void PrintList(int node, int count)
+        {
+            if (head == null)
+            {
+                Console.WriteLine("List is empty");
+                return;
+            }
+
+            Node current = head;
+            while (current.Next != head && count != node - 1)
+            {
+                Console.Write(current.Data + " ");
+                current = current.Next;
+            }
+            while (current.Next != str && count == node - 1)
+            {
+                Console.Write(current.Data + " ");
+                current = current.Next;
+            }
+            Console.WriteLine(current.Data);
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Enter the number of nodes");
+            int node = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter the position to point");
+            int pos = Convert.ToInt32(Console.ReadLine());
+            CircularLinkedList obj = new CircularLinkedList();
+            for (int i = 0; i < node; i++)
+            {
+                Console.WriteLine("Enter the data");
+                int data = Convert.ToInt32(Console.ReadLine());
+                obj.AddToEnd(data, pos, node, i);
+                obj.PrintList(node, i);
+            }
+            Console.ReadKey();
+        }
+    }
+}

@@ -1,0 +1,75 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Wave
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int temp = 0, a = 0, b = 0 ;
+            Console.WriteLine("Enter the array size");
+            int num = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter the elements in the array");
+            int[] arr = new int[num];
+            int[] one = new int[num];
+            int[] two = new int[num];
+            string[,] fin = new string[2, num];
+            for (int i = 0; i < num; i++)
+                arr[i] = Convert.ToInt32(Console.ReadLine());
+            for (int i = 0; i < num; i++)
+            {
+                for (int j = 0; j < num; j++)
+                {
+                    if (arr[i] > arr[j])
+                    {
+                        temp = arr[i];
+                        arr[i] = arr[j];
+                        arr[j] = temp;
+                    }
+                }
+            }
+              for(int i = 0; i < num/2; i++)
+                {
+                    one[i] = arr[i];
+                }
+              for(int i = num / 2; i < num; i++)
+                {
+                    two[b] = arr[i];
+                    b++;
+                }
+            if (num % 2 != 0)
+            {
+                a = two[0];
+                two[0] = 0;
+                for(int i = 0; i < num; i++)
+                {
+                    if (one[i] == 0)
+                    {
+                        one[i] = a;
+                        break;
+                    }
+                }
+            }
+            for (int i = 0; i < num; i++)
+            {
+                if (one[i] != 0)
+                {
+                    Console.Write(one[i] + "  ");
+                }
+            }
+            Console.WriteLine("\n");
+            for (int i = 0; i < num; i++)
+            {
+                if (two[i] != 0)
+                {
+                    Console.Write("  " + two[i]);
+                }
+            }
+            Console.ReadKey();
+        }
+    }
+}
