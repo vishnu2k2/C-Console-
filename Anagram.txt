@@ -1,0 +1,181 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Anagram
+{
+    class Program
+    {
+        public static bool Anagram(string n, string n1)
+        {
+            int count = 1, count1 = 1, len = 0; char[] s = n.ToCharArray();
+            bool chk = false; char[] s1 = n1.ToCharArray();
+            Dictionary<char, int> dict = new Dictionary<char, int>();
+            Dictionary<char, int> dict1 = new Dictionary<char, int>();
+            len = s.Length;
+            for (int i = 0; i < len; i++)
+            {
+                count = 1;
+                if (s[i] == ' ')
+                    continue;
+                for (int j = i + 1; j < len; j++)
+                {
+                    if (s[j] == ' ')
+                        continue;
+                    if (s[i] == s[j])
+                    {
+                        count++;
+                        s[j] = ' ';
+                    }
+                }
+                dict.Add(s[i], count);
+            }
+            for (int i = 0; i < len; i++)
+            {
+                count1 = 1;
+                if (s1[i] == ' ')
+                    continue;
+                for (int j = i + 1; j < len; j++)
+                {
+                    if (s1[j] == ' ')
+                        continue;
+                    if (s1[i] == s1[j])
+                    {
+                        count1++;
+                        s1[j] = ' ';
+                    }
+                }
+                dict1.Add(s1[i], count1);
+            }
+            if (dict.Count == dict1.Count)
+                chk = Equals(dict, dict1);
+            if (chk == true)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public static bool Equals(Dictionary<char, int> dict, Dictionary<char, int> dict1)
+        { 
+            int count = 0;
+            List<char> key = new List<char>(dict.Keys);
+            List<char> key1 = new List<char>(dict1.Keys);
+            for (int i = 0; i < dict.Count; i++)
+            {
+                if (dict.ContainsKey(key1[i]) && (dict[key1[i]] == dict1[key1[i]]))
+                { 
+                        count++;
+                }
+            }
+            if (count == dict.Count)
+                return true;
+            return false;
+        }
+        static void Main(string[] args)
+        {
+            string name, name1=" "; int count = 0;
+            List<string> list = new List<string>();
+            bool chk = false;
+            List<string> str = new List<string>();
+            List<string> ustr = new List<string>();
+            List<char> check = new List<char>();
+            List<char> dummy = new List<char>();
+            start:
+            {
+                Console.WriteLine("Enter the words");
+                name = Console.ReadLine();
+                list.Add(name);
+                name1 = list[0];
+                Console.WriteLine("Press 's' to enter another word");
+                char a = Convert.ToChar(Console.ReadLine());
+                if (a == 's')
+                    goto start;
+                for (int i = 0; i < list.Count - 1; i++)
+                {
+                    for (int j = i + 1; j < list.Count; j++)
+                    {
+                        if (list[i].Length == list[j].Length)
+                            chk = Anagram(list[i], list[j]);
+                        if (chk == true)
+                        { 
+                            str.Add(list[i]);
+                            str.Add(list[j]);
+                            if (name1 != list[i])
+                            {
+                                str.Add(count.ToString());
+                                name1 = list[i];
+                                count++;
+                            }
+                        }
+                    }
+                }
+                if (str.Count == 0)
+                {
+                    Console.WriteLine("No Anagrams are present");
+                }
+                else
+                {
+                    count = 0;
+                    ustr = str.Distinct().ToList();
+                    Console.WriteLine("The Anagrams are:");
+                    for (int i = 0; i < ustr.Count; i++)
+                    {
+                        if (ustr[i] == count.ToString())
+                        {
+                            Console.WriteLine();
+                            count++;
+                            i++;
+                        }
+                        if (i < ustr.Count)
+                        {
+                            if (ustr[i + 1] == count.ToString())
+                                Console.Write(ustr[i]);
+                            else
+                                Console.Write(ustr[i] + ",");
+                        }
+                    }
+                    ustr.RemoveAll(s => s == " ");
+                    Console.WriteLine();
+                }
+                if (ustr.Count == list.Count)
+                {
+                    Console.WriteLine("No Non-Anagrams are present");
+                }
+                else
+                {
+                    for (int i = 0; i < ustr.Count; i++)
+                    {
+                        for (int j = 0; j < list.Count; j++)
+                        {
+                            if (ustr[i] == list[j])
+                                list[j] = " ";
+                        }
+                    }
+                    str = list.Distinct().ToList();
+                    Console.WriteLine("The Non-Anagrams are:");
+                    for (int i = 0; i < str.Count; i++)
+                    {
+                        if (str[i] != " ")
+                        {
+                            if (str[i] == str[str.Count - 1])
+                            {
+                                Console.Write(str[i]);
+                            }
+                            else
+                            {
+                                Console.Write(str[i] + ",");
+                            }
+                        }
+                            
+                    }
+                }
+            }
+            Console.ReadKey();
+        }
+    }
+}
