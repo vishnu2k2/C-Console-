@@ -1,0 +1,60 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Practice
+{
+    class Program
+    {
+        public static void swap(ref int a, ref int b)
+        {
+            int temp = a;
+            a = b;
+            b = temp;
+        }
+        public static void permutation(int[] arr, int m, int n, List<long> ad)
+        {
+            string str;
+            if (m == n - 1)
+            {
+                str = "";
+                for(int i = 0; i < n; i++)
+                {
+                    str += arr[i].ToString();
+                }
+                ad.Add(Int64.Parse(str));
+            }
+            else
+            {
+                for (int i = m; i < n; i++)
+                {
+                    swap(ref arr[m], ref arr[i]);
+                    permutation(arr, m + 1, n, ad);
+                    swap(ref arr[m], ref arr[i]);
+                }
+            }
+        }
+        static void Main(string[] args)
+        {
+            long max = 0;
+            List<long> list = new List<long>();
+            Console.WriteLine("Enter the array size");
+            int num = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter the array elements");
+            int[] arr = new int[num];
+            for (int i = 0; i < num; i++)
+                arr[i] = Convert.ToInt32(Console.ReadLine());
+            permutation(arr, 0, num, list);
+            max = list[0];
+            for(int i = 0; i < list.Count; i++)
+            {
+                if (max < list[i])
+                    max = list[i];
+            }
+            Console.WriteLine(max);
+            Console.ReadKey();
+        }
+    }
+}
