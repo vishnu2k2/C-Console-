@@ -1,0 +1,768 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace List_Array
+{
+    class list<T> : IEnumerable<T>
+    {
+        int count = 0, size = 0;
+        T[] arr = new T[15];
+
+        //Foreach Loop IEnumerable
+
+        public list()
+        {
+            myData = new List<T>(arr);
+        }
+
+        private List<T> myData;
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            foreach (T val in myData)
+            {
+                yield return val;
+            }
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+        //Indexing List
+
+        public T this[int index]
+        {
+            get { return arr[index]; }
+        }
+        //Add Method
+        
+        public void Add(T name)
+        {
+            count++;
+            Array.Resize(ref arr, count);
+            arr[size] = name;
+            Console.WriteLine(arr[size]);
+            size++;
+        }
+        //Remove Method
+
+        public bool Remove(T name)
+        {
+            int flag = 0, temp = 0;
+                for (int i = 0; i < count; i++)
+                {
+                    if (arr[i].Equals(name))
+                    {
+                        flag = 1;
+                        temp = ++i;
+                        break;
+                    }
+                }
+            if (count != 0)
+            {
+                for(int i = temp; i < arr.Length; i++)
+                {
+                    arr[i - 1] = arr[i];
+                }
+            }
+            if (flag == 1 || arr[0].Equals(default(T)))
+                count--;
+            Array.Resize(ref arr, count);
+            if (flag == 1)
+                return true;
+            else
+                return false;
+        }
+        //RemoveAt Method
+
+        public void RemoveAt(int ind)
+        {
+            int flag = 0; 
+            if (count != 0)
+            {
+                for (int i = ind; i < arr.Length; i++)
+                {
+                    if (i < arr.Length - 1)
+                    {
+                        flag = 1;
+                        arr[i] = arr[i + 1];
+                    }
+                    else
+                        flag = 1;
+                }
+            }
+            if (flag == 1 || arr[0].Equals(default(T)))
+                count--;
+            for (int i = 0; i < count; i++)
+            {
+                    Console.WriteLine(arr[i]);
+            }
+            Array.Resize(ref arr, count);
+        }
+        //Count Method
+
+        public int Count()
+        {
+            return count;
+        }
+        //Clear Method
+
+        public void Clear()
+        {
+            for(int i = 0; i < count; i++)
+            {
+                arr[i] = default(T);
+            }
+            count = 0;
+            Array.Resize(ref arr, count);
+        }
+        //RemoveAll Method
+
+        public int RemoveAll(T name)
+        {
+            int temp = arr.Length;
+            T[] dum = arr.Where(x => !x.Equals(name)).ToArray();
+            arr = dum;
+            count = arr.Length;
+            for (int i = 0; i < count; i++)
+            {
+                    Console.WriteLine(arr[i]);
+            }
+            Array.Resize(ref arr, count);
+            return temp - count;
+        }
+        //Reverse Method
+
+        public void Reverse()
+        {
+            T temp = default(T);
+            if (count != 0)
+            {
+                for (int i = count - 1, j = 0; j < count / 2; i--, j++)
+                {
+                    temp = arr[j];
+                    arr[j] = arr[i];
+                    arr[i] = temp;
+                }
+            }
+            for (int i = 0; i < count; i++)
+            {
+                if (!arr[i].Equals(default(T)))
+                    Console.WriteLine(arr[i]);
+            }
+        }
+        //RemoveRange Method
+
+        public void RemoveRange(int str,int end)
+        {
+            for (int i = str + end; i < arr.Length; i++)
+            {
+                arr[i - end] = arr[i];
+            }
+            count = arr.Length - end;
+            for (int i = 0; i < count; i++)
+                Console.WriteLine(arr[i]);
+           Array.Resize(ref arr, count);
+        }
+        //AddRange Method
+
+        public void Addrange(T[] nam)
+        {
+            int temp = count;
+            count = count + nam.Length;
+            Array.Resize(ref arr, count);
+            for (int i = temp, j = 0; i < count; i++, j++) 
+            {
+                arr[i] = nam[j];
+            }
+            for(int i = 0; i < count; i++)
+            {
+                Console.WriteLine(arr[i]);
+            }
+        }
+        //Contains Method
+
+        public bool Contains(T name)
+        {
+            int flag = 0;
+            for(int i = 0; i < count; i++)
+            {
+                if (arr[i].Equals(name))
+                {
+                    flag = 1;
+                }
+            }
+            if (flag == 1)
+            {
+                Console.WriteLine("true");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("false");
+                return false;
+            }
+        }
+        //Equals Method
+
+        public bool Equals(List<T> str)
+        {
+            int temp = 0;
+            for(int i = 0; i < str.Count; i++)
+            {
+                if (arr[i].Equals(str[i]))
+                    temp++;
+            }
+            if (temp == str.Count)
+            {
+                Console.WriteLine("true");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("false");
+                return false;
+            }
+        }
+        //Copy Method
+
+        public void CopyTo(T[] str)
+        {
+            for(int i = 0; i < count; i++)
+            {
+                str[i] = arr[i];
+                Console.WriteLine(str[i]);
+            }
+        }
+        //IndexOf Method
+
+        public int IndexOf(T name)
+        {
+            int temp = 0;
+            for(int i = 0; i < count; i++)
+            {
+                if (arr[i].Equals(name))
+                {
+                    temp = i; 
+                    break;
+                }
+            }
+            return temp;
+        }
+        //Distinct Method
+
+        public List<T> Distinct()
+        {
+            T[] var=arr.Distinct().ToArray();
+            arr = var;
+            count = arr.Length;
+            List<T> typ = arr.ToList();
+            Array.Resize(ref arr, count);
+            return typ;
+        }
+        //Sort Method
+
+        public void Sort()
+        {
+            T temp; Type type = arr[0].GetType(); string al = type.Name;
+            for(int i = 0; i < count; i++)
+            {
+                for(int j = 0; j < count; j++)
+                {
+                    if (al.Equals("String"))
+
+                    {
+                        if (arr[i].ToString().CompareTo(arr[j].ToString()) < 0)
+                        {
+                            temp = arr[i];
+                            arr[i] = arr[j];
+                            arr[j] = temp;
+                        }
+                    }
+                    if (al.Equals("Int32")|| al.Equals("float")|| al.Equals("double"))
+                    {
+                        double val1 = Convert.ToDouble(arr[i].ToString());
+                        double val2 = Convert.ToDouble(arr[j].ToString());
+                        if (val1 < val2)
+                        {
+                            temp = arr[i];
+                            arr[i] = arr[j];
+                            arr[j] = temp;
+                        }
+                    }
+                    else if (al.Equals("char"))
+                    {
+                        char val1 = Convert.ToChar(arr[i].ToString());
+                        char val2 = Convert.ToChar(arr[j].ToString());
+                        if (val1 < val2)
+                        {
+                            temp = arr[i];
+                            arr[i] = arr[j];
+                            arr[j] = temp;
+                        }
+                    }
+                }
+            }
+            for (int i = 0; i < count; i++)
+            {
+                Console.WriteLine(arr[i]);
+            }
+        }
+        //GetRange Method
+
+        public List<T> GetRange(int str, int end)
+        {
+            int j = 0;
+            List<T> neni = new List<T>();
+            for (int i = str; i <= end; i++)
+            {
+                neni.Add(arr[i]);
+                j++;
+            }
+            return neni;
+        }
+        //Insert Method
+
+        public void Insert(int ind,T name)
+        {
+            count++;
+            Array.Resize(ref arr, count);
+            for (int i = count - 1; i > ind; i--) 
+            {
+                arr[i] = arr[i - 1];
+            }
+            arr[ind] = name;
+
+            for (int i = 0; i < count; i++) 
+                Console.WriteLine(arr[i]);
+        }
+        //Min Method
+
+        public T Min()
+        {
+            T[] dum = new T[arr.Length];
+            for (int i = 0; i < arr.Length; i++)
+                dum[i] = arr[i];
+            Sort();
+            T temp = arr[0];
+            Console.WriteLine(temp);
+            for (int i = 0; i < dum.Length; i++)
+                arr[i] = dum[i];
+            return temp;
+        }
+        //Max Method
+
+        public T Max()
+        {
+            T[] dum = new T[arr.Length];
+            for (int i = 0; i < arr.Length; i++)
+                dum[i] = arr[i];
+            Sort();
+            T temp = arr[count - 1];
+            Console.WriteLine(arr[count - 1]);
+            for (int i = 0; i < dum.Length; i++)
+                arr[i] = dum[i];
+            return temp;
+        }
+        //LastIndexOf Method
+
+        public int LastIndexOf(T name)
+        {
+            int temp = 0;
+            for(int i = 0; i < count; i++)
+            {
+                if (arr[i].Equals(name))
+                    temp = i;
+            }
+            Console.WriteLine(temp);
+            return temp;
+        }
+        //FindAll Method
+
+        public List<T> FindAll(Predicate<T> cond)
+        {
+            List<T> match = new List<T>();
+            foreach(T value in arr)
+            {
+                if (cond(value))
+                    match.Add(value);
+            }
+            return match;
+        }
+        //Find Method
+
+        public T Find(Predicate<T> cond)
+        {
+            T temp=default(T);
+            foreach (T value in arr)
+            {
+                if (cond(value))
+                {
+                    temp = value;
+                    break;
+                }
+            }
+            return temp;
+        }
+        //FindLast Method
+
+        public T FindLast(Predicate<T> cond)
+        {
+            T temp = default(T);
+            foreach (T value in arr)
+            {
+                if (cond(value))
+                {
+                    temp = value;
+                }
+            }
+            return temp;
+        }
+        //FindIndex Method
+
+        public int FindIndex(Predicate<T> cond)
+        {
+            int i;
+            for(i = 0; i < arr.Length; i++)
+            {
+                if (cond(arr[i]))
+                {
+                    break;
+                }
+            }
+            return i;
+        }
+        //FindLastIndex Method
+
+        public int FindLastIndex(Predicate<T> cond)
+        {
+            int i, j = 0;
+            for (i = 0; i < arr.Length; i++)
+            {
+                if (cond(arr[i]))
+                {
+                    j = i;
+                }
+            }
+            return j;
+        }
+        //InsertRange Method
+
+        public void InsertRange(int ind,List<T> name)
+        {
+            List<T> nam = new List<T>();
+            for(int i = 0; i < ind; i++)
+            {
+                nam.Add(arr[i]);
+            }
+            for(int i = 0; i < name.Count; i++)
+            {
+                nam.Add(name[i]);
+            }
+            for(int i = ind; i < arr.Length; i++)
+            {
+                nam.Add(arr[i]);
+            }
+            for(int i = 0; i < nam.Count; i++)
+            {
+                Console.WriteLine(nam[i]);
+            }
+            count = nam.Count;
+            Array.Resize(ref arr, count);
+        }
+        //BinarySearch Method
+
+        public int BinarySearch(T item)
+        {
+            int left = 0;
+            T[] dum = new T[arr.Length];
+            T[] ind = new T[arr.Length];
+            for (int i = 0; i < arr.Length; i++)
+                dum[i] = arr[i];
+            Sort();
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (arr[i].Equals(item))
+                {
+                    left = 1;
+                }
+            }
+            if (left == 1)
+            {
+                for (int i = 0; i < dum.Length; i++)
+                {
+                    if (dum[i].Equals(item))
+                        return i;
+                }
+            }
+            for (int i = 0; i < dum.Length; i++)
+                arr[i] = dum[i];
+            return -1;
+        }
+        //ToArray Method
+
+        public T[] ToArray()
+        {
+            return arr;
+        }
+    }
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("----------------------------List_Methods----------------------------");
+            Console.WriteLine("Select what Datatype to create the list");
+            Console.WriteLine("\n1.Integer\n2.Float\n3.Double\n4.Character\n5.String");
+            int data = Convert.ToInt32(Console.ReadLine());
+            if (data == 1)
+            {
+                int n; int res = 0, str, cou; bool chk;
+                list<int> newlist = new list<int>();
+                Console.WriteLine("List created successfully");
+                while (true)
+                {
+                    List<int> dummy = new List<int>();
+                    Console.WriteLine("Enter the option to perform");
+                    Console.WriteLine("\n1.Add\n2.Remove\n3.RemoveAt\n4.Count\n5.Clear\n6.RemoveAll\n7.Reverse\n8.RemoveRange" +
+                        "\n9.AddRange\n10.Contains\n11.Equals\n12.CopyTo\n13.IndexOf\n14.Distinct\n15.Sort\n16.GetRange\n17.Insert" +
+                        "\n18.Min\n19.Max\n20.LastIndexOf\n21.Find\n22.FindAll\n23.FindLast\n24.FindIndex\n25.FindLastIndex\n26.InsertRange" +
+                        "\n27.BinarySearch\n28.ToArray\n29.Exit");
+                    int num = Convert.ToInt32(Console.ReadLine());
+                    switch (num)
+                    {
+                        case 1:
+                            {
+                                Console.WriteLine("Enter the element to add");
+                                n = Convert.ToInt32(Console.ReadLine());
+                                newlist.Add(n);
+                                break;
+                            }
+                        case 2:
+                            {
+                                Console.WriteLine("Enter the element to remove");
+                                n = Convert.ToInt32(Console.ReadLine());
+                                chk = newlist.Remove(n);
+                                Console.WriteLine(chk);
+                                break;
+                            }
+                        case 3:
+                            {
+                                Console.WriteLine("Enter the element's index to remove");
+                                str = Convert.ToInt32(Console.ReadLine());
+                                newlist.RemoveAt(str);
+                                break;
+                            }
+                        case 4:
+                            {
+                                res = newlist.Count();
+                                Console.WriteLine(res);
+                                break;
+                            }
+                        case 5:
+                            {
+                                newlist.Clear();
+                                break;
+                            }
+                        case 6:
+                            {
+                                Console.WriteLine("It is not working");
+                                //n = Convert.ToDouble(Console.ReadLine());
+                                //res = newlist.RemoveAll(n);
+                                //Console.WriteLine(res);
+                                break;
+                            }
+                        case 7:
+                            {
+                                newlist.Reverse();
+                                break;
+                            }
+                        case 8:
+                            {
+                                Console.WriteLine("Enter the index and count to remove");
+                                str = Convert.ToInt32(Console.ReadLine());
+                                cou = Convert.ToInt32(Console.ReadLine());
+                                newlist.RemoveRange(str, cou);
+                                break;
+                            }
+                        case 9:
+                            {
+                                int[] arw = new int[3];
+                                Console.WriteLine("Enter the elements to insert");
+                                for (int i = 0; i < arw.Length; i++)
+                                    arw[i]=(Convert.ToInt32(Console.ReadLine()));
+                                newlist.Addrange(arw);
+                                break;
+                            }
+                        case 10:
+                            {
+                                Console.WriteLine("Enter the element to check");
+                                n = Convert.ToInt32(Console.ReadLine());
+                                chk = newlist.Contains(n);
+                                Console.WriteLine(n);
+                                break;
+                            }
+                        case 11:
+                            {
+                                dummy.Clear();
+                                Console.WriteLine("Enter the elements to insert");
+                                for (int i = 0; i < newlist.Count(); i++)
+                                    dummy.Add(Convert.ToInt32(Console.ReadLine()));
+                                newlist.Equals(dummy);
+                                break;
+                            }
+                        case 12:
+                            {
+                                int[] dum = new int[newlist.Count()];
+                                newlist.CopyTo(dum);
+                                break;
+                            }
+                        case 13:
+                            {
+                                Console.WriteLine("Enter the element to find its index");
+                                n = Convert.ToInt32(Console.ReadLine());
+                                res = newlist.IndexOf(n);
+                                Console.WriteLine(res);
+                                break;
+                            }
+                        case 14:
+                            {
+                                IEnumerable<int> s = newlist.Distinct();
+                                foreach (int d in s)
+                                    Console.WriteLine(d);
+                                break;
+                            }
+                        case 15:
+                            {
+                                newlist.Sort();
+                                break;
+                            }
+                        case 16:
+                            {
+                                Console.WriteLine("Enter the index and count to get");
+                                str = Convert.ToInt32(Console.ReadLine());
+                                cou = Convert.ToInt32(Console.ReadLine());
+                                dummy = newlist.GetRange(str, cou);
+                                foreach (double d in dummy)
+                                    Console.WriteLine(d);
+                                break;
+                            }
+                        case 17:
+                            {
+                                Console.WriteLine("Enter the index and element to insert");
+                                str = Convert.ToInt32(Console.ReadLine());
+                                n = Convert.ToInt32(Console.ReadLine());
+                                newlist.Insert(str, n);
+                                break;
+                            }
+                        case 18:
+                            {
+                                n = newlist.Min();
+                                Console.WriteLine(n);
+                                break;
+                            }
+                        case 19:
+                            {
+                                n = newlist.Max();
+                                Console.WriteLine(n);
+                                break;
+                            }
+                        case 20:
+                            {
+                                Console.WriteLine("Enter the element to find its last index");
+                                n = Convert.ToInt32(Console.ReadLine());
+                                res = newlist.LastIndexOf(n);
+                                Console.WriteLine(res);
+                                break;
+                            }
+                        case 21:
+                            {
+                                Console.WriteLine("It is not working");
+                                //Console.WriteLine("Enter the element to find");
+                                //n = Convert.ToInt32(Console.ReadLine());
+                                //n = newlist.Find(n);
+                                //Console.WriteLine(n);
+                                break;
+                            }
+                        case 22:
+                            {
+                                Console.WriteLine("It is not working");
+                                //Console.WriteLine("Enter the element to find");
+                                //n = Convert.ToDouble(Console.ReadLine());
+                                ////Predicate<double> myPredicate = dummy;
+                                //dummy = newlist.FindAll(n);
+                                //foreach (double d in dummy)
+                                //    Console.WriteLine(d);
+                                break;
+                            }
+                        case 23:
+                            {
+                                Console.WriteLine("It is not working");
+                                //Console.WriteLine("Enter the element to findLast occurence");
+                                //n = Convert.ToDouble(Console.ReadLine());
+                                //n = newlist.FindLast(n);
+                                //Console.WriteLine(n);
+                                break;
+                            }
+                        case 24:
+                            {
+                                Console.WriteLine("It is not working");
+                                //Console.WriteLine("Enter the element to find its index");
+                                //n = Convert.ToDouble(Console.ReadLine());
+                                //res = newlist.FindIndex(n);
+                                //Console.WriteLine(n);
+                                break;
+                            }
+                        case 25:
+                            {
+                                Console.WriteLine("It is not working");
+                                //Console.WriteLine("Enter the element to find its lastindex");
+                                //n = Convert.ToDouble(Console.ReadLine());
+                                //dummy.Add(n);
+                                //res = newlist.FindLastIndex(dummy);
+                                //Console.WriteLine(n);
+                                break;
+                            }
+                        case 26:
+                            {
+                                Console.WriteLine("Enter the index and element to insert");
+                                str = Convert.ToInt32(Console.ReadLine());
+                                for (int i = 0; i < 3; i++)
+                                    dummy.Add(Convert.ToInt32(Console.ReadLine()));
+                                newlist.InsertRange(str, dummy);
+                                break;
+                            }
+                        case 27:
+                            {
+                                Console.WriteLine("Enter the element to search");
+                                n = Convert.ToInt32(Console.ReadLine());
+                                res = newlist.BinarySearch(n);
+                                Console.WriteLine(res);
+                                break;
+                            }
+                        case 28:
+                            {
+                                int[] arw = newlist.ToArray();
+                                for (int i = 0; i < arw.Length; i++)
+                                    Console.WriteLine(arw[i]);
+                                break;
+                            }
+                        case 29:
+                            {
+                                Console.WriteLine("Operations are done!");
+                                break;
+                            }
+                    }
+                    if (num == 29)
+                    {
+                        break;
+                    }
+                }
+            }
+            Console.ReadKey();
+        }
+    }
+}
