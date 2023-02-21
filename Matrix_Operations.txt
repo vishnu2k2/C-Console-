@@ -1,0 +1,208 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Matrix_Operations
+{
+    class Program
+    {
+        public static int[,] matAdd(int[,] mat,int[,] mat1, int row, int col)
+        {
+            int[,] fin = new int[row, col];
+            for(int i = 0; i < row; i++)
+            {
+                for(int j = 0; j < col; j++)
+                {
+                    fin[i, j] = mat[i, j] + mat1[i, j];
+                }
+            }
+            return fin;
+        }
+
+        public static int[,] matSub(int[,] mat, int[,] mat1, int row, int col)
+        {
+            int[,] fin = new int[row, col];
+            for (int i = 0; i < row; i++)
+            {
+                for (int j = 0; j < col; j++)
+                {
+                    fin[i, j] = mat[i, j] - mat1[i, j];
+                }
+            }
+            return fin;
+        }
+
+        public static int[,] matMul(int[,] mat, int[,] mat1, int row, int col)
+        {
+            int[,] fin = new int[row, col];
+            int x = 0, y = 0, a = 0, b = 0; int str = 0, count = 0;
+            for(int i = 0; i < row; i++)
+            {
+                b = 0;
+                for(int j = 0; j < col; j++)
+                {
+                    a = 0; y = 0; str = 0;
+                    for (int k = 0; k < row; k++)
+                    {
+                        if (a < row && b < row && x < row && y < row)
+                        {
+                            str += mat[x, y] * mat1[a, b];
+                            y++; a++;
+                        } 
+                    }
+                    fin[i, j] = str;
+                    b++;
+                }
+                x++;
+            }
+            return fin;
+        }
+
+        public static int[,] matTrans(int[,] mat, int row, int col)
+        {
+            int[,] fin = new int[row, col];
+            for(int i = 0; i < row; i++)
+            {
+                for(int j = 0; j < col; j++)
+                {
+                    fin[i, j] = mat[j, i];
+                }
+            }
+            return fin;
+        }
+
+        public static int[,] clkRotate(int[,] mat, int row, int col)
+        {
+            int[,] fin = new int[row, col];
+            int x = row - 1;
+            for (int i = 0; i < row; i++)
+            {
+                for (int j = 0; j < col; j++)
+                {
+                    fin[j, i] = mat[x, j];
+                }
+                x--;
+            }
+            return fin;
+        }
+
+        public static int[,] aclkRotate(int[,] mat, int row, int col)
+        {
+            int[,] fin = new int[row, col];
+            int x = 0, y = col - 1;
+            for (int i = 0; i < row; i++)
+            {
+                y = col - 1;
+                for (int j = 0; j < col; j++)
+                {
+                    fin[j, i] = mat[x, y];
+                    y--;
+                }
+                x++;
+            }
+            return fin;
+        }
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Enter the number of rows");
+            int row = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Enter the number of columns");
+            int col = Convert.ToInt32(Console.ReadLine());
+            int[,] fin = new int[row, col];
+            Console.WriteLine("Enter the elements in the matrix1");
+            int[,] mat = new int[row, col];
+            for(int i = 0; i < row; i++)
+            {
+                for (int j = 0; j < col; j++)
+                    mat[i, j] = Convert.ToInt32(Console.ReadLine());
+            }
+            Console.WriteLine("Enter the elements in the matrix2");
+            int[,] mat1 = new int[row, col];
+            for (int i = 0; i < row; i++)
+            {
+                for (int j = 0; j < col; j++)
+                    mat1[i, j] = Convert.ToInt32(Console.ReadLine());
+            }
+            while (true)
+            {
+                Console.WriteLine("Select the operation to perform");
+                Console.WriteLine("\n1.Add\n2.sub\n3.mul\n4.Transpose\n5.clock Rotation\n6.Anti-Clock Rotation\n7.Exit");
+                int n = Convert.ToInt32(Console.ReadLine());
+                switch (n)
+                {
+                    case 1:
+                        {
+                            fin = matAdd(mat, mat1, row, col);
+                            for (int i = 0; i < row; i++)
+                            {
+                                for (int j = 0; j < col; j++)
+                                    Console.Write(fin[i, j]+" ");
+                                Console.WriteLine();
+                            }
+                            break;
+                        }
+                    case 2:
+                        {
+                            fin = matSub(mat, mat1, row, col);
+                            for (int i = 0; i < row; i++)
+                            {
+                                for (int j = 0; j < col; j++)
+                                    Console.Write(fin[i, j] + " ");
+                                Console.WriteLine();
+                            }
+                            break;
+                        }
+                    case 3:
+                        {
+                            fin = matMul(mat, mat1, row, col);
+                            for (int i = 0; i < row; i++)
+                            {
+                                for (int j = 0; j < col; j++)
+                                    Console.Write(fin[i, j] + " ");
+                                Console.WriteLine();
+                            }
+                            break;
+                        }
+                    case 4:
+                        {
+                            fin = matTrans(fin, row, col);
+                            for (int i = 0; i < row; i++)
+                            {
+                                for (int j = 0; j < col; j++)
+                                    Console.Write(fin[i, j] + " ");
+                                Console.WriteLine();
+                            }
+                            break;
+                        }
+                    case 5:
+                        {
+                            fin = clkRotate(fin, row, col);
+                            for (int i = 0; i < row; i++)
+                            {
+                                for (int j = 0; j < col; j++)
+                                    Console.Write(fin[i, j] + " ");
+                                Console.WriteLine();
+                            }
+                            break;
+                        }
+                    case 6:
+                        {
+                            fin = aclkRotate(fin, row, col);
+                            for (int i = 0; i < row; i++)
+                            {
+                                for (int j = 0; j < col; j++)
+                                    Console.Write(fin[i, j] + " ");
+                                Console.WriteLine();
+                            }
+                            break;
+                        }
+                }
+                if (n == 7)
+                    break;
+            }
+            Console.ReadKey();
+        }
+    }
+}
